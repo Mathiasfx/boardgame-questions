@@ -145,7 +145,7 @@ const App: React.FC = () => {
           onClick={usePreloadedQuestions}
           style={{ width: "100%", marginBottom: "10px", minHeight: "50px" }}
         >
-          Preguntas RCP
+          Preguntas Robótica
         </Button>
         <Button
           type="default"
