@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../providers/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Typography, notification } from "antd";
 import styles from "./LoginPage.module.css"; // Importa los estilos
 
@@ -16,7 +16,7 @@ const LoginPage = () => {
     try {
       await login(values.email, values.password);
       notification.success({ message: "Inicio de sesión exitoso" });
-      navigate("/game");
+      navigate("/dashboard");
     } catch (error) {
       notification.error({
         message: "Error al iniciar sesión",
@@ -61,6 +61,9 @@ const LoginPage = () => {
               Iniciar Sesión
             </Button>
           </Form.Item>
+          <p>
+            ¿No tienes cuenta? <Link to="/register">Registrate</Link>
+          </p>
         </Form>
       </div>
     </div>

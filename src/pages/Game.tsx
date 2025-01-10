@@ -6,7 +6,19 @@ import {
   PlusOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { useAuth } from "../providers/AuthContext";
+
+import { useParams } from "react-router-dom";
+interface Config {
+  questions: { question: string }[];
+}
+
+const defaultConfig: Config = {
+  questions: [
+    { question: "Pregunta 1 predeterminada" },
+    { question: "Pregunta 2 predeterminada" },
+    { question: "Pregunta 3 predeterminada" },
+  ],
+};
 
 interface Question {
   question: string;
@@ -22,30 +34,53 @@ const Game: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [showCard, setShowCard] = useState(false);
-  const { currentUser } = useAuth();
+  const { userId } = useParams<{ userId: string }>();
+  const [config, setConfig] = useState<Config>(defaultConfig);
   const [isInitialModalVisible, setIsInitialModalVisible] =
     useState<boolean>(true); // Modal inicial
 
-  // cargar preguntas desde el servidor
   useEffect(() => {
-    console.log(currentUser);
-    const loadQuestions = async () => {
-      const response = await fetch("/questions.json");
-      const data: Question[] = await response.json();
-      const savedQuestions = JSON.parse(
-        localStorage.getItem("questions") || "null"
-      ) as Question[];
-
-      if (savedQuestions) {
-        setQuestions(savedQuestions);
-      } else {
-        setQuestions(data);
-        localStorage.setItem("questions", JSON.stringify(data));
+    const fetchConfig = async () => {
+      if (userId && userId !== "default") {
+        const userConfig = await fetchUserConfig(userId);
+        setConfig(userConfig || defaultConfig);
+        console.log(config);
       }
+      setLoading(false);
     };
+    fetchConfig();
+  }, [userId, config]);
+  // // cargar preguntas desde el servidor
+  // useEffect(() => {
+  //   const loadQuestions = async () => {
+  //     const response = await fetch("/questions.json");
+  //     const data: Question[] = await response.json();
+  //     const savedQuestions = JSON.parse(
+  //       localStorage.getItem("questions") || "null"
+  //     ) as Question[];
 
-    loadQuestions();
-  }, []);
+  //     if (savedQuestions) {
+  //       setQuestions(savedQuestions);
+  //     } else {
+  //       setQuestions(data);
+  //       localStorage.setItem("questions", JSON.stringify(data));
+  //     }
+  //   };
+
+  //   loadQuestions();
+  // }, []);
+
+  const fetchUserConfig = async (userId: string): Promise<Config> => {
+    try {
+      const response = await fetch(`/api/config/${userId}`);
+      if (response.ok) {
+        return await response.json();
+      }
+      return defaultConfig;
+    } catch {
+      return defaultConfig;
+    }
+  };
 
   // obtener una pregunta aleatoria sin repetir
   const getRandomQuestion = () => {

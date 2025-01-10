@@ -27,14 +27,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/game"
-              element={
-                <PrivateRoute>
-                  <Game />
-                </PrivateRoute>
-              }
-            />
+            <Route path="/game/:userId" element={<Game />} />
             <Route
               path="/dashboard"
               element={
@@ -43,7 +36,7 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={<Navigate to="/game/default" />} />
           </Routes>
         </Content>
       </Layout>
