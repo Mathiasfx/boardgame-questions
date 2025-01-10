@@ -45,12 +45,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const savedUser = Cookies.get("user");
     if (savedUser) {
-      setCurrentUser(JSON.parse(savedUser));
+      // Verifica si el valor de la cookie es un JSON válido
+      try {
+        const user = JSON.parse(savedUser);
+        setCurrentUser(user); // Establece el usuario desde la cookie
+      } catch (error) {
+        console.error("Error al leer la cookie del usuario", error);
+        Cookies.remove("user"); // Si no es válido, elimina la cookie
+      }
     }
 
     const unsubscribe = authStateChanged((user) => {
       if (user) {
-        Cookies.set("user", JSON.stringify(user), { expires: 1 });
+        Cookies.set("user", JSON.stringify(user), {
+          expires: 1,
+          SameSite: "None",
+          secure: true,
+        });
+
         setCurrentUser(user);
       } else {
         Cookies.remove("user");
@@ -81,6 +93,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       name: "", // Campo vacío inicial
       createdAt: serverTimestamp(),
     });
+    Cookies.set("user", JSON.stringify(user), {
+      expires: 1,
+      SameSite: "None",
+      secure: true,
+    });
+
+    setCurrentUser(user);
   };
   //#endregion
 

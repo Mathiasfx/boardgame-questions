@@ -7,9 +7,10 @@ import {
 import { Layout } from "antd";
 import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegiterPage";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import Game from "./pages/Game";
+import Profile from "./pages/dashboard/profile/Profile";
 
 const { Content } = Layout;
 
@@ -28,6 +29,14 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/game/:userId" element={<Game />} />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/dashboard"
               element={
