@@ -3,6 +3,7 @@ import { useAuth } from "../../providers/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Typography, notification } from "antd";
 import styles from "./RegisterPage.module.css";
+import registerIllus from "../../assets/illustrations/registerillustration.svg";
 
 const { Title } = Typography;
 
@@ -31,13 +32,14 @@ const RegisterPage = () => {
     <div className={styles.container}>
       <div className={styles.imageContainer}>
         <img
-          src="https://placehold.co/600x800"
+          src={registerIllus}
           alt="Imagen de registro"
           className={styles.image}
         />
       </div>
 
       <div className={styles.formContainer}>
+        <Title level={1}>Boardgames</Title>
         <Title level={3}>Registrar</Title>
         <Form onFinish={onFinish} layout="vertical">
           <Form.Item

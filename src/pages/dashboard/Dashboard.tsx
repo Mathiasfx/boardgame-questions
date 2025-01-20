@@ -3,6 +3,7 @@ import { useAuth } from "../../providers/AuthContext";
 import { Layout, Drawer } from "antd";
 import {
   DashboardOutlined,
+  LogoutOutlined,
   MenuOutlined,
   SettingOutlined,
   UserOutlined,
@@ -114,11 +115,15 @@ const Dashboard = () => {
             onClick={() => setDrawerVisible(true)}
             style={{ display: "inline-block", marginRight: "16px" }}
           />
-          <Title level={4} style={{ margin: 0, flex: 1, textAlign: "center" }}>
+          <Title level={2} style={{ margin: 0, flex: 1, textAlign: "center" }}>
             Dashboard
           </Title>
-          <Button type="primary" onClick={handleLogout}>
-            Cerrar Sesión
+          <Button
+            type="default"
+            onClick={handleLogout}
+            style={{ backgroundColor: "#f56954", color: "white" }}
+          >
+            <LogoutOutlined />
           </Button>
         </Header>
 

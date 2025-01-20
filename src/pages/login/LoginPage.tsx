@@ -3,6 +3,7 @@ import { useAuth } from "../../providers/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Typography, notification } from "antd";
 import styles from "./LoginPage.module.css"; // Importa los estilos
+import loginIllustration from "../../assets/illustrations/loginillustration.svg";
 
 const { Title } = Typography;
 
@@ -31,13 +32,14 @@ const LoginPage = () => {
     <div className={styles.container}>
       <div className={styles.imageContainer}>
         <img
-          src="https://placehold.co/600x800"
+          src={loginIllustration}
           alt="Imagen de inicio de sesión"
           className={styles.image}
         />
       </div>
 
       <div className={styles.formContainer}>
+        <Title level={1}>Boardgames</Title>
         <Title level={3}>Iniciar Sesión</Title>
         <Form onFinish={onFinish} layout="vertical">
           <Form.Item
