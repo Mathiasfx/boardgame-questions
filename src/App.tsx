@@ -5,11 +5,14 @@ import {
   DeleteOutlined,
   PlusOutlined,
   SettingOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import "./App.css";
+import background from "./assets/background.jpg";
 
 interface Question {
   question: string;
+  answer?: string;
 }
 
 const App: React.FC = () => {
@@ -17,13 +20,26 @@ const App: React.FC = () => {
   const [randomQuestion, setRandomQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [newQuestion, setNewQuestion] = useState<string>("");
+  const [newAnswer, setNewAnswer] = useState<string>("");
   const [isConfigModalVisible, setIsConfigModalVisible] =
     useState<boolean>(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [showCard, setShowCard] = useState(false);
   const [isInitialModalVisible, setIsInitialModalVisible] =
-    useState<boolean>(true); // Modal inicial
+    useState<boolean>(false); // Modal inicial
+  const [showAnswer, setShowAnswer] = useState<boolean>(false);
+
+  // Define las variables como un objeto
+  const customIndicator = (
+    <LoadingOutlined spin style={{ fontSize: "48px", color: "#F66531" }} />
+  );
+  const buttonStyles = {
+    "--button-bg-color": "#F66531",
+    "--button-color": "white",
+    "--button-border-color": "#F66531",
+    "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
+  };
 
   // cargar preguntas desde el servidor
   useEffect(() => {
@@ -47,6 +63,7 @@ const App: React.FC = () => {
 
   // obtener una pregunta aleatoria sin repetir
   const getRandomQuestion = () => {
+    setShowAnswer(false);
     setShowCard(false);
     setLoading(true);
 
@@ -79,11 +96,19 @@ const App: React.FC = () => {
 
   // actualizar pregunta
   const updateQuestion = () => {
-    if (newQuestion.trim() !== "" && editIndex !== null) {
+    if (
+      newQuestion.trim() !== "" &&
+      newAnswer.trim() !== "" &&
+      editIndex !== null
+    ) {
       const updatedQuestions = [...questions];
-      updatedQuestions[editIndex] = { question: newQuestion };
+      updatedQuestions[editIndex] = {
+        question: newQuestion,
+        answer: newAnswer,
+      };
       setQuestions(updatedQuestions);
       setNewQuestion("");
+      setNewAnswer("");
       setEditIndex(null);
       setIsEditModalVisible(false);
       saveQuestions();
@@ -99,10 +124,14 @@ const App: React.FC = () => {
 
   // agregar nueva pregunta
   const addNewQuestion = () => {
-    if (newQuestion.trim() !== "") {
-      const updatedQuestions = [...questions, { question: newQuestion }];
+    if (newQuestion.trim() !== "" && newAnswer.trim() !== "") {
+      const updatedQuestions = [
+        ...questions,
+        { question: newQuestion, answer: newAnswer },
+      ];
       setQuestions(updatedQuestions);
       setNewQuestion("");
+      setNewAnswer("");
       saveQuestions();
     }
   };
@@ -131,7 +160,15 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="container" style={{ padding: "20px" }}>
+    <div
+      className="container"
+      style={
+        {
+          padding: "20px",
+          backgroundImage: `url(${background})`,
+        } as React.CSSProperties
+      }
+    >
       {/* Modal inicial para seleccionar la opción */}
       <Modal
         className="modalpregunta"
@@ -161,9 +198,9 @@ const App: React.FC = () => {
       {loading && randomQuestion !== null && (
         <div
           className="flex justify-center items-center"
-          style={{ margin: "20px", padding: "20px" }}
+          style={{ margin: "25px", padding: "25px" }}
         >
-          <Spin size="large" />
+          <Spin indicator={customIndicator} />
         </div>
       )}
       {randomQuestion && !loading && (
@@ -172,6 +209,32 @@ const App: React.FC = () => {
           bordered={false}
         >
           <h1>{randomQuestion.question}</h1>
+          {!showAnswer && (
+            <Button
+              style={{
+                marginTop: "10px",
+                backgroundColor: "#2b2926",
+                color: "white",
+                borderColor: "#2b2926",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              }}
+              onClick={() => setShowAnswer(true)}
+            >
+              Ver Respuesta
+            </Button>
+          )}
+          {showAnswer && (
+            <p
+              style={{
+                marginTop: "10px",
+                color: "#F66531",
+                fontSize: "1.4rem",
+                fontWeight: "semibold",
+              }}
+            >
+              {randomQuestion.answer}
+            </p>
+          )}
         </Card>
       )}
 
@@ -180,7 +243,7 @@ const App: React.FC = () => {
         type="default"
         className="custom-button"
         onClick={getRandomQuestion}
-        style={{ minHeight: "50px" }}
+        style={{ minHeight: "50px", ...buttonStyles }}
       >
         Obtener Pregunta
       </Button>
@@ -205,7 +268,15 @@ const App: React.FC = () => {
           placeholder="Escribe una nueva pregunta"
           value={newQuestion}
           onChange={(e) => setNewQuestion(e.target.value)}
+          style={{ marginBottom: "10px" }}
         />
+        <Input
+          placeholder="Escribe la respuesta"
+          value={newAnswer}
+          onChange={(e) => setNewAnswer(e.target.value)}
+          style={{ marginBottom: "10px" }}
+        />
+
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -227,6 +298,7 @@ const App: React.FC = () => {
                   onClick={() => {
                     setEditIndex(index);
                     setNewQuestion(item.question);
+                    setNewAnswer(item.answer || "");
                     setIsEditModalVisible(true);
                   }}
                 >
@@ -270,6 +342,11 @@ const App: React.FC = () => {
           placeholder="Edita la pregunta"
           value={newQuestion}
           onChange={(e) => setNewQuestion(e.target.value)}
+        />
+        <Input
+          placeholder="Edita la respuesta"
+          value={newAnswer}
+          onChange={(e) => setNewAnswer(e.target.value)}
         />
       </Modal>
     </div>

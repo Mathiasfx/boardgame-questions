@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -46,18 +57,29 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useState } from "react";
 import { Modal, Button, Input, List, Card, Spin } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined, SettingOutlined, } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, PlusOutlined, SettingOutlined, LoadingOutlined, } from "@ant-design/icons";
 import "./App.css";
+import background from "./assets/background.jpg";
 var App = function () {
     var _a = useState([]), questions = _a[0], setQuestions = _a[1];
     var _b = useState(null), randomQuestion = _b[0], setRandomQuestion = _b[1];
     var _c = useState(false), loading = _c[0], setLoading = _c[1];
     var _d = useState(""), newQuestion = _d[0], setNewQuestion = _d[1];
-    var _e = useState(false), isConfigModalVisible = _e[0], setIsConfigModalVisible = _e[1];
-    var _f = useState(false), isEditModalVisible = _f[0], setIsEditModalVisible = _f[1];
-    var _g = useState(null), editIndex = _g[0], setEditIndex = _g[1];
-    var _h = useState(false), showCard = _h[0], setShowCard = _h[1];
-    var _j = useState(true), isInitialModalVisible = _j[0], setIsInitialModalVisible = _j[1]; // Modal inicial
+    var _e = useState(""), newAnswer = _e[0], setNewAnswer = _e[1];
+    var _f = useState(false), isConfigModalVisible = _f[0], setIsConfigModalVisible = _f[1];
+    var _g = useState(false), isEditModalVisible = _g[0], setIsEditModalVisible = _g[1];
+    var _h = useState(null), editIndex = _h[0], setEditIndex = _h[1];
+    var _j = useState(false), showCard = _j[0], setShowCard = _j[1];
+    var _k = useState(false), isInitialModalVisible = _k[0], setIsInitialModalVisible = _k[1]; // Modal inicial
+    var _l = useState(false), showAnswer = _l[0], setShowAnswer = _l[1];
+    // Define las variables como un objeto
+    var customIndicator = (_jsx(LoadingOutlined, { spin: true, style: { fontSize: "48px", color: "#F66531" } }));
+    var buttonStyles = {
+        "--button-bg-color": "#F66531",
+        "--button-color": "white",
+        "--button-border-color": "#F66531",
+        "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
+    };
     // cargar preguntas desde el servidor
     useEffect(function () {
         var loadQuestions = function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -86,6 +108,7 @@ var App = function () {
     }, []);
     // obtener una pregunta aleatoria sin repetir
     var getRandomQuestion = function () {
+        setShowAnswer(false);
         setShowCard(false);
         setLoading(true);
         if (questions.length === 0) {
@@ -109,11 +132,17 @@ var App = function () {
     };
     // actualizar pregunta
     var updateQuestion = function () {
-        if (newQuestion.trim() !== "" && editIndex !== null) {
+        if (newQuestion.trim() !== "" &&
+            newAnswer.trim() !== "" &&
+            editIndex !== null) {
             var updatedQuestions = __spreadArray([], questions, true);
-            updatedQuestions[editIndex] = { question: newQuestion };
+            updatedQuestions[editIndex] = {
+                question: newQuestion,
+                answer: newAnswer,
+            };
             setQuestions(updatedQuestions);
             setNewQuestion("");
+            setNewAnswer("");
             setEditIndex(null);
             setIsEditModalVisible(false);
             saveQuestions();
@@ -127,10 +156,13 @@ var App = function () {
     };
     // agregar nueva pregunta
     var addNewQuestion = function () {
-        if (newQuestion.trim() !== "") {
-            var updatedQuestions = __spreadArray(__spreadArray([], questions, true), [{ question: newQuestion }], false);
+        if (newQuestion.trim() !== "" && newAnswer.trim() !== "") {
+            var updatedQuestions = __spreadArray(__spreadArray([], questions, true), [
+                { question: newQuestion, answer: newAnswer },
+            ], false);
             setQuestions(updatedQuestions);
             setNewQuestion("");
+            setNewAnswer("");
             saveQuestions();
         }
     };
@@ -165,13 +197,28 @@ var App = function () {
         setIsInitialModalVisible(false); // Cierra el modal inicial
         setIsConfigModalVisible(true);
     };
-    return (_jsxs("div", { className: "container", style: { padding: "20px" }, children: [_jsxs(Modal, { className: "modalpregunta", title: "Selecciona una opci\u00F3n", open: isInitialModalVisible, footer: null, closable: false, children: [_jsx(Button, { type: "primary", onClick: usePreloadedQuestions, style: { width: "100%", marginBottom: "10px", minHeight: "50px" }, children: "Preguntas RCP" }), _jsx(Button, { type: "default", onClick: createNewQuestions, style: { width: "100%", minHeight: "50px" }, children: "Crear Mis Propias Preguntas" })] }), randomQuestion === null && loading && _jsx("h2", { children: "No hay m\u00E1s preguntas" }), loading && randomQuestion !== null && (_jsx("div", { className: "flex justify-center items-center", style: { margin: "20px", padding: "20px" }, children: _jsx(Spin, { size: "large" }) })), randomQuestion && !loading && (_jsx(Card, { className: "".concat(showCard ? "fade-in" : "fade-out", " cartapregunta"), bordered: false, children: _jsx("h1", { children: randomQuestion.question }) })), _jsx(Button, { type: "default", className: "custom-button", onClick: getRandomQuestion, style: { minHeight: "50px" }, children: "Obtener Pregunta" }), _jsx(Button, { type: "default", icon: _jsx(SettingOutlined, {}), onClick: function () { return setIsConfigModalVisible(true); }, style: { position: "absolute", top: "20px", right: "20px" } }), _jsxs(Modal, { title: "Configurar Preguntas", open: isConfigModalVisible, onCancel: function () { return setIsConfigModalVisible(false); }, footer: null, children: [_jsx("h3", { children: "Agregar Nueva Pregunta" }), _jsx(Input, { placeholder: "Escribe una nueva pregunta", value: newQuestion, onChange: function (e) { return setNewQuestion(e.target.value); } }), _jsx(Button, { type: "primary", icon: _jsx(PlusOutlined, {}), onClick: addNewQuestion, style: { marginTop: "10px", minHeight: "50px" }, children: "Agregar Pregunta" }), _jsx("h3", { style: { marginTop: "20px" }, children: "Listado de Preguntas" }), _jsx(List, { dataSource: questions, renderItem: function (item, index) { return (_jsx(List.Item, { actions: [
+    return (_jsxs("div", { className: "container", style: {
+            padding: "20px",
+            backgroundImage: "url(".concat(background, ")"),
+        }, children: [_jsxs(Modal, { className: "modalpregunta", title: "Selecciona una opci\u00F3n", open: isInitialModalVisible, footer: null, closable: false, children: [_jsx(Button, { type: "primary", onClick: usePreloadedQuestions, style: { width: "100%", marginBottom: "10px", minHeight: "50px" }, children: "Preguntas RCP" }), _jsx(Button, { type: "default", onClick: createNewQuestions, style: { width: "100%", minHeight: "50px" }, children: "Crear Mis Propias Preguntas" })] }), randomQuestion === null && loading && _jsx("h2", { children: "No hay m\u00E1s preguntas" }), loading && randomQuestion !== null && (_jsx("div", { className: "flex justify-center items-center", style: { margin: "25px", padding: "25px" }, children: _jsx(Spin, { indicator: customIndicator }) })), randomQuestion && !loading && (_jsxs(Card, { className: "".concat(showCard ? "fade-in" : "fade-out", " cartapregunta"), bordered: false, children: [_jsx("h1", { children: randomQuestion.question }), !showAnswer && (_jsx(Button, { style: {
+                            marginTop: "10px",
+                            backgroundColor: "#2b2926",
+                            color: "white",
+                            borderColor: "#2b2926",
+                            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                        }, onClick: function () { return setShowAnswer(true); }, children: "Ver Respuesta" })), showAnswer && (_jsx("p", { style: {
+                            marginTop: "10px",
+                            color: "#F66531",
+                            fontSize: "1.4rem",
+                            fontWeight: "semibold",
+                        }, children: randomQuestion.answer }))] })), _jsx(Button, { type: "default", className: "custom-button", onClick: getRandomQuestion, style: __assign({ minHeight: "50px" }, buttonStyles), children: "Obtener Pregunta" }), _jsx(Button, { type: "default", icon: _jsx(SettingOutlined, {}), onClick: function () { return setIsConfigModalVisible(true); }, style: { position: "absolute", top: "20px", right: "20px" } }), _jsxs(Modal, { title: "Configurar Preguntas", open: isConfigModalVisible, onCancel: function () { return setIsConfigModalVisible(false); }, footer: null, children: [_jsx("h3", { children: "Agregar Nueva Pregunta" }), _jsx(Input, { placeholder: "Escribe una nueva pregunta", value: newQuestion, onChange: function (e) { return setNewQuestion(e.target.value); }, style: { marginBottom: "10px" } }), _jsx(Input, { placeholder: "Escribe la respuesta", value: newAnswer, onChange: function (e) { return setNewAnswer(e.target.value); }, style: { marginBottom: "10px" } }), _jsx(Button, { type: "primary", icon: _jsx(PlusOutlined, {}), onClick: addNewQuestion, style: { marginTop: "10px", minHeight: "50px" }, children: "Agregar Pregunta" }), _jsx("h3", { style: { marginTop: "20px" }, children: "Listado de Preguntas" }), _jsx(List, { dataSource: questions, renderItem: function (item, index) { return (_jsx(List.Item, { actions: [
                                 _jsx(Button, { type: "link", icon: _jsx(EditOutlined, {}), onClick: function () {
                                         setEditIndex(index);
                                         setNewQuestion(item.question);
+                                        setNewAnswer(item.answer || "");
                                         setIsEditModalVisible(true);
                                     }, children: "Editar" }),
                                 _jsx(Button, { style: { minHeight: "50px" }, type: "link", icon: _jsx(DeleteOutlined, {}), danger: true, onClick: function () { return deleteQuestion(index); }, children: "Eliminar" }),
-                            ], children: item.question })); } }), _jsx(Button, { type: "default", danger: true, style: { marginTop: "20px", minHeight: "50px" }, onClick: resetQuestions, children: "Restaurar Preguntas Predeterminadas" })] }), _jsx(Modal, { title: "Editar Pregunta", open: isEditModalVisible, onCancel: function () { return setIsEditModalVisible(false); }, onOk: updateQuestion, okText: "Guardar", cancelText: "Cancelar", children: _jsx(Input, { placeholder: "Edita la pregunta", value: newQuestion, onChange: function (e) { return setNewQuestion(e.target.value); } }) })] }));
+                            ], children: item.question })); } }), _jsx(Button, { type: "default", danger: true, style: { marginTop: "20px", minHeight: "50px" }, onClick: resetQuestions, children: "Restaurar Preguntas Predeterminadas" })] }), _jsxs(Modal, { title: "Editar Pregunta", open: isEditModalVisible, onCancel: function () { return setIsEditModalVisible(false); }, onOk: updateQuestion, okText: "Guardar", cancelText: "Cancelar", children: [_jsx(Input, { placeholder: "Edita la pregunta", value: newQuestion, onChange: function (e) { return setNewQuestion(e.target.value); } }), _jsx(Input, { placeholder: "Edita la respuesta", value: newAnswer, onChange: function (e) { return setNewAnswer(e.target.value); } })] })] }));
 };
 export default App;
