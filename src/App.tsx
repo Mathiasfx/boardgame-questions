@@ -8,7 +8,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import "./App.css";
-import background from "./assets/background.jpg";
+import background from "./assets/background.png";
 
 interface Question {
   question: string;
@@ -30,14 +30,14 @@ const App: React.FC = () => {
     useState<boolean>(false); // Modal inicial
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
 
-  // Define las variables como un objeto
+  // Define las variables como un objeto 4bacd6
   const customIndicator = (
-    <LoadingOutlined spin style={{ fontSize: "48px", color: "#F66531" }} />
+    <LoadingOutlined spin style={{ fontSize: "48px", color: "#fff" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#F66531",
+    "--button-bg-color": "#4bacd6",
     "--button-color": "white",
-    "--button-border-color": "#F66531",
+    "--button-border-color": "#46868d",
     "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
   };
 
@@ -227,7 +227,7 @@ const App: React.FC = () => {
             <p
               style={{
                 marginTop: "10px",
-                color: "#F66531",
+                color: "#46868d",
                 fontSize: "1.4rem",
                 fontWeight: "semibold",
               }}
