@@ -1,31 +1,38 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
-interface GameConfig {
-  title: string;
-  colorPrimary: string;
-  colorSecondary: string;
-  questions: { question: string }[];
-}
-
 /**
- * Obtiene la configuración completa del juego incluyendo preguntas y estilos.
- * @param slug Identificador único del juego.
+ * Obtiene la configuración del juego basado en el `slug`, buscando en `users/{userId}/boards/{boardId}`.
+ * @param slug Slug único del juego.
  * @returns Configuración del juego o null si no existe.
  */
-export const getGameConfig = async (slug: string): Promise<GameConfig | null> => {
+export const getGameConfig = async (slug: string) => {
   try {
-    const gameRef = doc(db, "games", slug);
-    const gameSnap = await getDoc(gameRef);
 
-    if (gameSnap.exists()) {
-      return gameSnap.data() as GameConfig;
-    } else {
-      console.error("Juego no encontrado");
-      return null;
+
+    // Obtener todos los usuarios para buscar dentro de "users/{userId}/boards"
+    const usersRef = collection(db, "users");
+    const usersSnapshot = await getDocs(usersRef);
+
+    for (const userDoc of usersSnapshot.docs) {
+      const userId = userDoc.id; // ID del usuario
+
+      // Buscar dentro de "users/{userId}/boards"
+      const boardsRef = collection(db, `users/${userId}/boards`);
+      const q = query(boardsRef, where("slug", "==", slug));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const gameData = querySnapshot.docs[0].data();
+
+        return gameData;
+      }
     }
+
+  
+    return null;
   } catch (error) {
-    console.error("Error al obtener la configuración del juego:", error);
+    console.error(" Error al obtener la configuración del juego:", error);
     return null;
   }
 };
