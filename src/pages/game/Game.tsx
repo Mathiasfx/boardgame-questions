@@ -4,6 +4,7 @@ import { Button, Card, Spin } from "antd";
 import { getGameConfig } from "../../firebase/gameService";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Question } from "../../interfaces/iquestion.model";
+import "../../App.css";
 
 const Game: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -71,89 +72,103 @@ const Game: React.FC = () => {
 
   return (
     <div
-      className="container"
       style={{
-        padding: "20px",
+        width: "100vw",
+        height: "100vh",
         backgroundColor: gameConfig?.colorPrimary,
-        backgroundImage: gameConfig?.background,
-
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
       }}
     >
-      {loading && (
-        <Spin
-          indicator={
-            <LoadingOutlined style={{ fontSize: "48px", color: "#fff" }} spin />
-          }
-        />
-      )}
-
-      {randomQuestion && !loading && (
-        <Card
-          className={`${showCard ? "fade-in" : "fade-out"} cartapregunta`}
-          bordered={false}
-          style={{ textAlign: "center" }}
-        >
-          <h1>{randomQuestion.question}</h1>
-          {!showAnswer && (
-            <Button
-              style={{
-                marginTop: "10px",
-                backgroundColor: gameConfig?.colorPrimary
-                  ? gameConfig?.colorPrimary
-                  : "#2b2926",
-                color: "white",
-                borderColor: gameConfig?.colorPrimary
-                  ? gameConfig?.colorPrimary
-                  : "#2b2926",
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-              }}
-              onClick={() => setShowAnswer(true)}
-            >
-              Ver Respuesta
-            </Button>
-          )}
-          {showAnswer && (
-            <p
-              style={{
-                marginTop: "10px",
-                color: gameConfig?.colorSecondary,
-                fontSize: "1.4rem",
-                fontWeight: "bold",
-              }}
-            >
-              {randomQuestion.answer}
-            </p>
-          )}
-        </Card>
-      )}
-
-      {/* Botón para obtener una nueva pregunta */}
-      <Button
-        type="default"
-        onClick={getRandomQuestion}
+      <div
         style={{
-          minHeight: "50px",
-          backgroundColor: gameConfig?.colorSecondary,
-          color: "#fff",
-          borderColor: gameConfig?.colorSecondary,
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-          marginTop: "20px",
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "20px",
+          backgroundColor: gameConfig?.colorPrimary,
+          backgroundImage: gameConfig?.background
+            ? `url(${gameConfig.background})`
+            : "",
+          backgroundSize: "70%", // La imagen se ajusta completamente
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       >
-        OBTENER PREGUNTA
-      </Button>
+        {loading && (
+          <Spin
+            indicator={
+              <LoadingOutlined
+                style={{ fontSize: "48px", color: "#fff" }}
+                spin
+              />
+            }
+          />
+        )}
 
-      {/* Botón para abrir el modal de configuración */}
-      {/* <Button
+        {randomQuestion && !loading && (
+          <Card
+            className={`${showCard ? "fade-in" : "fade-out"} cartapregunta`}
+            bordered={false}
+            style={{ textAlign: "center" }}
+          >
+            <h1>{randomQuestion.question}</h1>
+            {!showAnswer && (
+              <Button
+                style={{
+                  marginTop: "10px",
+                  backgroundColor: gameConfig?.colorPrimary
+                    ? gameConfig?.colorPrimary
+                    : "#2b2926",
+                  color: "white",
+                  borderColor: gameConfig?.colorPrimary
+                    ? gameConfig?.colorPrimary
+                    : "#2b2926",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                }}
+                onClick={() => setShowAnswer(true)}
+              >
+                Ver Respuesta
+              </Button>
+            )}
+            {showAnswer && (
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: gameConfig?.colorPrimary,
+                  fontSize: "1.4rem",
+                  fontWeight: "bold",
+                }}
+              >
+                {randomQuestion.answer}
+              </p>
+            )}
+          </Card>
+        )}
+
+        {/* Botón para obtener una nueva pregunta */}
+        <Button
+          type="default"
+          onClick={getRandomQuestion}
+          style={{
+            minHeight: "50px",
+            backgroundColor: gameConfig?.colorSecondary,
+            color: "#fff",
+            borderColor: gameConfig?.colorSecondary,
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            marginTop: "20px",
+          }}
+        >
+          OBTENER PREGUNTA
+        </Button>
+
+        {/* Botón para abrir el modal de configuración */}
+        {/* <Button
         type="default"
         icon={<SettingOutlined />}
         style={{ position: "absolute", top: "20px", right: "20px" }}
       ></Button> */}
+      </div>
     </div>
   );
 };
