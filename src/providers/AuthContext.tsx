@@ -21,7 +21,7 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 interface AuthContextType {
   currentUser: User | null;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -81,7 +81,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   //#endregion
 
   //#region REGISTRO DE USUARIO
-  const register = async (email: string, password: string) => {
+  const register = async (email: string, password: string, name: string) => {
     const { user } = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -90,12 +90,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const userRef = doc(db, "users", user.uid);
     await setDoc(userRef, {
       email: user.email,
-      name: "", // Campo vacío inicial
+      name: name,
       createdAt: serverTimestamp(),
     });
     Cookies.set("user", JSON.stringify(user), {
       expires: 1,
-      SameSite: "None",
+      SameSite: "Strict",
       secure: true,
     });
 

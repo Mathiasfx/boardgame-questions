@@ -1,26 +1,22 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../providers/AuthContext";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+const PrivateRoute = () => {
   const { currentUser } = useAuth();
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verifica si el currentUser está definido
-    if (currentUser === null) {
-      setLoading(false); // Si el usuario está desconectado, también terminamos la carga
-    }
-    if (currentUser) {
-      setLoading(false); // Si el usuario está conectado, también terminamos la carga
+    if (currentUser !== undefined) {
+      setLoading(false);
     }
   }, [currentUser]);
 
   if (loading) {
-    return <div>Cargando...</div>; // Puedes personalizar lo que quieras mostrar mientras verificas la sesión
+    return <div>Cargando...</div>; // Puedes personalizar el loading
   }
 
-  return currentUser ? children : <Navigate to="/login" />;
+  return currentUser ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
