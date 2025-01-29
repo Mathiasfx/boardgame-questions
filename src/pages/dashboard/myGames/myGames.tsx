@@ -18,6 +18,7 @@ import {
   PlusOutlined,
   LinkOutlined,
   UploadOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 import {
   createBoard,
@@ -29,6 +30,7 @@ import {
 import { useAuth } from "../../../providers/AuthContext";
 import { Board } from "../../../interfaces/iboard.model";
 import { uploadBackgroundImage } from "../../../firebase/storageService";
+import { Link } from "react-router-dom";
 
 const MyGames: React.FC = () => {
   const { currentUser } = useAuth();
@@ -259,6 +261,10 @@ const MyGames: React.FC = () => {
           key="actions"
           render={(_, trivia) => (
             <Space>
+              <Link to={`/game/${trivia.slug}`}>
+                <Button icon={<GlobalOutlined />} />
+              </Link>
+
               <Button
                 icon={<LinkOutlined />}
                 onClick={() => handleCopyLink(trivia.slug)}

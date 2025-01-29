@@ -56,7 +56,44 @@ const LoginPage = () => {
       </div>
 
       <div className={styles.formContainer}>
-        <Title level={1}>Boardgames</Title>
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="40" height="40" rx="8" fill="#004794" />
+
+          <rect
+            x="8"
+            y="8"
+            width="24"
+            height="24"
+            rx="3"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="20"
+            y1="8"
+            x2="20"
+            y2="32"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="8"
+            y1="20"
+            x2="32"
+            y2="20"
+            stroke="white"
+            stroke-width="2"
+          />
+
+          <circle cx="30" cy="30" r="4" fill="white" />
+        </svg>
+        <Title level={1}>Cuanto Sabes</Title>
         <Title level={3}>Iniciar Sesión</Title>
         <Form
           onFinish={onFinish}

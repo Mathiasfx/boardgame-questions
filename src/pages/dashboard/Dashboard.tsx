@@ -7,7 +7,6 @@ import {
   LogoutOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  FlagFilled,
   HomeOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
@@ -40,7 +39,43 @@ const Dashboard = () => {
       >
         <Flex align="center" justify="center">
           <div className="logo-sider">
-            <FlagFilled />
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="40" height="40" rx="8" fill="#004794" />
+
+              <rect
+                x="8"
+                y="8"
+                width="24"
+                height="24"
+                rx="3"
+                stroke="white"
+                stroke-width="2"
+              />
+              <line
+                x1="20"
+                y1="8"
+                x2="20"
+                y2="32"
+                stroke="white"
+                stroke-width="2"
+              />
+              <line
+                x1="8"
+                y1="20"
+                x2="32"
+                y2="20"
+                stroke="white"
+                stroke-width="2"
+              />
+
+              <circle cx="30" cy="30" r="4" fill="white" />
+            </svg>
           </div>
         </Flex>
         <Menu

@@ -8,6 +8,7 @@ import "../../App.css";
 
 const Game: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [bgSize, setBgSize] = useState("67%");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [randomQuestion, setRandomQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -21,6 +22,16 @@ const Game: React.FC = () => {
     colorSecondary: string;
   } | null>(null);
 
+  useEffect(() => {
+    const updateBgSize = () => {
+      setBgSize(window.innerWidth < 1300 ? "cover" : "contain");
+    };
+
+    updateBgSize(); // Llamamos al inicio para establecer el valor correcto
+    window.addEventListener("resize", updateBgSize);
+
+    return () => window.removeEventListener("resize", updateBgSize);
+  }, []);
   useEffect(() => {
     const fetchGameDetails = async () => {
       if (!slug) return;
@@ -90,7 +101,8 @@ const Game: React.FC = () => {
           backgroundImage: gameConfig?.background
             ? `url(${gameConfig.background})`
             : "",
-          backgroundSize: "70%", // La imagen se ajusta completamente
+          backgroundSize: bgSize,
+          backgroundAttachment: "fixed",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
