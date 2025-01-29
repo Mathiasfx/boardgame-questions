@@ -1,51 +1,58 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { db } from "./firebase"; // Asegúrate de importar correctamente tu configuración
+import { Board } from "../interfaces/iboard.model";
+import { db } from "./firebase"; 
 import { collection, doc, setDoc, getDocs, updateDoc, deleteDoc, query, where } from "firebase/firestore";
 
 
-const generateSlug = (title: string): string => {
+//#region Generar slug
+export const generateSlug = (title: string): string => {
     return title
       .toLowerCase()
       .trim()
-      .replace(/\s+/g, "-") // Reemplazar espacios por guiones
-      .replace(/[^\w-]/g, ""); // Eliminar caracteres especiales
+      .replace(/\s+/g, "-") 
+      .replace(/[^\w-]/g, ""); 
   };
+  //#endregion
 
+//#region Verificar slug unico
   const checkSlugExists = async (userId: string, slug: string): Promise<boolean> => {
     const triviasRef = collection(db, `users/${userId}/boards`);
     const q = query(triviasRef, where("slug", "==", slug));
     const querySnapshot = await getDocs(q);
-    return !querySnapshot.empty; // Devuelve true si ya existe
+    return !querySnapshot.empty; 
   };
+  //#endregion
 
-// 📌 Función para crear una trivia
-export const createBoard = async (userId: string, title: string, questions: { question: string }[]) => {
+//#region Crear Board
+export const createBoard = async (board:Board) => {
     try {
-        let slug = generateSlug(title);
+        let slug = generateSlug(board.title);
         let attempt = 0;
     
-        // Verificar slug unico
-        while (await checkSlugExists(userId, slug)) {
+        while (await checkSlugExists(board.userId, slug)) {
           attempt++;
-          slug = `${generateSlug(title)}-${attempt}`;
+          slug = `${generateSlug(board.title)}-${attempt}`;
         }
     
-  
-        const boardRef = doc(collection(db, `users/${userId}/boards`));
-        await setDoc(boardRef, {
+        const triviaRef = doc(collection(db, `users/${board.userId}/boards`));
+        await setDoc(triviaRef, {
           slug,
-          title,
-          questions,
+          title: board.title,
+          colorPrimary: board.colorPrimary,
+          colorSecondary: board.colorSecondary,
+          background: board.background,
+          questions: board.questions,
         });
     
-        return { id: boardRef.id, slug };
+        return { id: triviaRef.id, slug };
       } catch (error) {
         console.error("Error creando trivia:", error);
         throw error;
       }
 };
+//#endregion
 
-// 📌 Función para obtener todas las trivias de un usuario
+//#region Obtener todos los boards de un usuario
 export const getUserBoards = async (userId: string) => {
   try {
     const boardsRef = collection(db, `users/${userId}/boards`);
@@ -57,8 +64,9 @@ export const getUserBoards = async (userId: string) => {
     throw error;
   }
 };
+//#endregion
 
-// 📌 Función para editar una trivia
+//#region Editar Board
 export const updateBoard = async (userId: string, boardId: string, updatedData: any) => {
   try {
     const boardRef = doc(db, `users/${userId}/boards/${boardId}`);
@@ -69,8 +77,9 @@ export const updateBoard = async (userId: string, boardId: string, updatedData: 
     throw error;
   }
 };
+//#endregion
 
-// 📌 Función para eliminar una trivia
+//#region Eliminar Board
 export const deleteBoard = async (userId: string, boardID: string) => {
   try {
     const boardRef = doc(db, `users/${userId}/boards/${boardID}`);
@@ -81,3 +90,4 @@ export const deleteBoard = async (userId: string, boardID: string) => {
     throw error;
   }
 };
+//#endregion
