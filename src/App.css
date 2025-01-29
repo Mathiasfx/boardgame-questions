@@ -1,9 +1,11 @@
 #root {
-  max-width: 1280px;
+
   margin: 0 auto;
-  padding: 2rem;
+ 
   text-align: center;
 }
+
+
 
 
 
@@ -86,3 +88,4 @@
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
 }
+

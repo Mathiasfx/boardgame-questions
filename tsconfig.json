@@ -13,7 +13,11 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "noEmit": true,                 // Evita generar archivos .js en el desarrollo
+    "outDir": "./dist",             // Directorio de salida para builds
+    "rootDir": "./src"              // Organiza los archivos fuente dentro de src
   },
-  "include": ["src"]
+  "include": ["src"],               // Solo incluye los archivos dentro de src
+  "exclude": ["node_modules", "dist"] // Excluye directorios no necesarios
 }
