@@ -229,14 +229,23 @@ const MyGames: React.FC = () => {
 
   return (
     <div>
-      <h2>Mis Juegos</h2>
-      <Button
-        className="custom-button"
-        icon={<PlusOutlined />}
-        onClick={() => setIsModalOpen(true)}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "center",
+          minHeight: "50px",
+        }}
       >
-        Nuevo Juego
-      </Button>
+        <h2 style={{ marginRight: "20px", marginBottom: "0px" }}>Mis Juegos</h2>
+        <Button
+          className="custom-button"
+          icon={<PlusOutlined />}
+          onClick={() => setIsModalOpen(true)}
+        >
+          Nuevo Juego
+        </Button>
+      </div>
 
       <Table
         dataSource={trivias}
