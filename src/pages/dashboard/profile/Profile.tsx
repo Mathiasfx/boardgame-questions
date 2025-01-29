@@ -2,17 +2,26 @@ import React, { useState, useEffect } from "react";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { useAuth } from "../../../providers/AuthContext";
 import { uploadProfileImage } from "../../../utils/uploadProfileImage";
-import { db } from "../../../firebase";
+import { db } from "../../../firebase/firebase";
 import { deleteObject, ref } from "firebase/storage";
-import { storage } from "../../../firebase";
-import { notification, Upload, Button, Avatar, Card } from "antd";
+import { storage } from "../../../firebase/firebase";
+import {
+  notification,
+  Upload,
+  Button,
+  Avatar,
+  Card,
+  Typography,
+  Spin,
+} from "antd";
 import {
   DeleteOutlined,
   UploadOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { UploadChangeParam } from "antd/es/upload/interface";
-import Title from "antd/es/typography/Title";
+
+const { Title } = Typography;
 
 const Profile: React.FC = () => {
   const { currentUser } = useAuth();
@@ -33,9 +42,7 @@ const Profile: React.FC = () => {
     }
   }, [currentUser]);
 
-  //#region Seleccionar imagen
   const handleFileChange = (info: UploadChangeParam) => {
-    // Obtener el archivo correctamente desde fileList
     const selectedFile = info.fileList[0]?.originFileObj as File;
 
     if (!selectedFile) {
@@ -43,7 +50,6 @@ const Profile: React.FC = () => {
       return;
     }
 
-    // Validación de formato de imagen
     const allowedTypes = ["image/jpeg", "image/png"];
     if (!allowedTypes.includes(selectedFile.type)) {
       notification.error({
@@ -53,7 +59,6 @@ const Profile: React.FC = () => {
       return;
     }
 
-    // Validación del tamaño de imagen (máx 2MB)
     if (selectedFile.size > 2 * 1024 * 1024) {
       notification.error({
         message: "Imagen muy grande",
@@ -62,14 +67,10 @@ const Profile: React.FC = () => {
       return;
     }
 
-    // Seteamos el archivo y la imagen para vista previa
     setFile(selectedFile);
     setProfileImage(URL.createObjectURL(selectedFile));
   };
 
-  //#endregion
-
-  //#region Subir Imagen
   const handleUpload = async () => {
     if (!file) {
       notification.error({ message: "No has seleccionado ninguna imagen" });
@@ -94,9 +95,7 @@ const Profile: React.FC = () => {
       setLoading(false);
     }
   };
-  //#endregion
 
-  //#region Eliminar Imagen
   const handleDeleteImage = async () => {
     if (!profileImage) {
       notification.error({ message: "No hay imagen para eliminar" });
@@ -106,7 +105,6 @@ const Profile: React.FC = () => {
     setLoading(true);
     try {
       const imageRef = ref(storage, `profileImages/${currentUser!.uid}`);
-
       await deleteObject(imageRef);
 
       const userRef = doc(db, "users", currentUser!.uid);
@@ -123,33 +121,43 @@ const Profile: React.FC = () => {
       setLoading(false);
     }
   };
-  //#endregion
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px",
+      }}
+    >
       <Card
         style={{
-          width: "500px",
+          width: "400px",
           padding: "20px",
-          textAlign: "center",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          borderRadius: "10px",
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+          borderRadius: "8px",
+          background: "#fff",
         }}
       >
-        {/* Título */}
-        <Title level={3} style={{ marginBottom: "20px" }}>
-          Imagen de Perfil
+        <Title level={3} style={{ textAlign: "center", color: "#333" }}>
+          Foto de Perfil
         </Title>
 
-        {/* Imagen de Perfil */}
-        <Avatar
-          size={120}
-          src={profileImage || undefined}
-          icon={!profileImage ? <UserOutlined /> : undefined}
-          style={{ marginBottom: "15px" }}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <Avatar
+            size={120}
+            src={profileImage || undefined}
+            icon={!profileImage ? <UserOutlined /> : undefined}
+          />
+        </div>
 
-        {/* Subida de Imagen */}
         <Upload
           beforeUpload={() => false}
           onChange={handleFileChange}
@@ -157,13 +165,17 @@ const Profile: React.FC = () => {
         >
           <Button
             icon={<UploadOutlined />}
-            style={{ width: "100%", marginBottom: "10px", marginLeft: "10px" }}
+            style={{
+              width: "100%",
+              marginBottom: "10px",
+              backgroundColor: "#1677ff",
+              color: "#fff",
+            }}
           >
             Seleccionar Imagen
           </Button>
         </Upload>
 
-        {/* Botón de Guardar Imagen */}
         <Button
           type="primary"
           onClick={handleUpload}
@@ -174,10 +186,8 @@ const Profile: React.FC = () => {
           Guardar Imagen
         </Button>
 
-        {/* Botón de Eliminar Imagen */}
         {profileImage && (
           <Button
-            type="default"
             danger
             icon={<DeleteOutlined />}
             onClick={handleDeleteImage}
@@ -186,6 +196,12 @@ const Profile: React.FC = () => {
           >
             Eliminar Imagen
           </Button>
+        )}
+
+        {loading && (
+          <div style={{ textAlign: "center", marginTop: "10px" }}>
+            <Spin />
+          </div>
         )}
       </Card>
     </div>

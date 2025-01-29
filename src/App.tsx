@@ -10,6 +10,7 @@ import RegisterPage from "./pages/register/RegiterPage";
 import Dashboard from "./pages/dashboard/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./providers/AuthContext";
+import './index.css'
 
 function App() {
   const { currentUser } = useAuth();

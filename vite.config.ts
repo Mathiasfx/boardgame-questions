@@ -3,11 +3,20 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  build: {
-    outDir: "dist",          
-    emptyOutDir: true       
-  },
-  server: {
-    open: true,              
+  css: {
+    postcss: {
+      plugins: [
+        {
+          postcssPlugin: "ignore-ant-design",
+          Once(root) {
+            root.walkAtRules("import", (rule) => {
+              if (rule.params.includes("antd/dist/reset.css")) {
+                rule.remove();
+              }
+            });
+          },
+        },
+      ],
+    },
   },
 });

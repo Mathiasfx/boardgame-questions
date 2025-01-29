@@ -1,21 +1,27 @@
-import React from "react";
-import { Layout, Menu, Typography } from "antd";
+import React, { useState } from "react";
+
+import { Button, Flex, Layout, Menu, Typography } from "antd";
 import {
-  DashboardOutlined,
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  FlagFilled,
+  HomeOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Profile from "./profile/Profile";
 import { useAuth } from "../../providers/AuthContext";
+import MyGames from "./myGames/myGames";
 
 const { Header, Sider, Content } = Layout;
-const { Title } = Typography;
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { logout, currentUser } = useAuth();
+  const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -25,32 +31,40 @@ const Dashboard = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
-      <Sider collapsible style={{ background: "#001529" }}>
-        <div
-          style={{
-            color: "#fff",
-            textAlign: "center",
-            fontSize: "1.2rem",
-            margin: "16px 0",
-          }}
-        >
-          <strong>Dashboard</strong>
-        </div>
+      <Sider
+        collapsible
+        theme="light"
+        trigger={null}
+        collapsed={collapsed}
+        className="sider"
+      >
+        <Flex align="center" justify="center">
+          <div className="logo-sider">
+            <FlagFilled />
+          </div>
+        </Flex>
         <Menu
-          theme="dark"
+          className="menu-bar"
+          theme="light"
           mode="inline"
           onClick={({ key }) => navigate(key)} // Navegar a la ruta seleccionada
           defaultSelectedKeys={["/dashboard/inicio"]}
           items={[
             {
               key: "/dashboard/inicio",
-              icon: <DashboardOutlined />,
+              icon: <HomeOutlined />,
               label: "Inicio",
             },
+
             {
               key: "/dashboard/perfil",
               icon: <UserOutlined />,
               label: "Perfil",
+            },
+            {
+              key: "/dashboard/games",
+              icon: <UnorderedListOutlined />,
+              label: "Mis Juegos",
             },
             {
               key: "/dashboard/configuracion",
@@ -59,49 +73,50 @@ const Dashboard = () => {
             },
           ]}
         />
+        <Button
+          type="text"
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          onClick={() => setCollapsed(!collapsed)}
+          className="trigger-btn"
+        />
       </Sider>
 
       {/* Layout Principal */}
       <Layout>
         {/* Header */}
-        <Header
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: "#f0f2f5",
-            padding: "0 16px",
-          }}
-        >
-          <Title level={4} style={{ margin: 0 }}>
-            Bienvenido, {currentUser?.email || "Usuario"}
-          </Title>
-          <button
-            onClick={handleLogout}
-            style={{
-              backgroundColor: "#f5222d",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
-              width: "30px",
-              height: "30px",
-            }}
-          >
-            <LogoutOutlined rotate={270} />
-          </button>
+        <Header className="header">
+          <Flex align="center" justify="space-between">
+            <Typography.Title level={3} type="secondary">
+              Bienvenido {currentUser?.displayName}
+            </Typography.Title>
+            <Flex align="center" gap="10px">
+              <button
+                onClick={handleLogout}
+                style={{
+                  backgroundColor: "#f5222d",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  width: "30px",
+                  height: "30px",
+                }}
+              >
+                <LogoutOutlined rotate={270} />
+              </button>
+            </Flex>
+          </Flex>
         </Header>
 
         {/* Contenido Principal */}
-        <Content
-          style={{ margin: "16px", padding: "24px", background: "#fff" }}
-        >
+        <Content className="content">
           <Routes>
             <Route path="inicio" element={<p>Inicio</p>} />
             <Route path="perfil" element={<Profile />} />
+            <Route path="games" element={<MyGames />} />
             <Route path="configuracion" element={<p>Configuracion</p>} />
             {/* Redirección por defecto */}
             <Route path="*" element={<Navigate to="inicio" />} />

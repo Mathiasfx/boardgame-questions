@@ -14,7 +14,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   authStateChanged,
-} from "../firebase";
+} from "../firebase/firebase";
 import { User } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
