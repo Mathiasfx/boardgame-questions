@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user) {
         Cookies.set("user", JSON.stringify(user), {
           expires: 1,
-          SameSite: "None",
+          SameSite: "Lax",
           secure: true,
         });
 
@@ -82,24 +82,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   //#region REGISTRO DE USUARIO
   const register = async (email: string, password: string, name: string) => {
-    const { user } = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const userRef = doc(db, "users", user.uid);
-    await setDoc(userRef, {
-      email: user.email,
-      name: name,
-      createdAt: serverTimestamp(),
-    });
-    Cookies.set("user", JSON.stringify(user), {
-      expires: 1,
-      SameSite: "Strict",
-      secure: true,
-    });
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, {
+        email: user.email,
+        name: name,
+        profileImage: "",
+        createdAt: serverTimestamp(),
+      });
+      Cookies.set("user", JSON.stringify(user), {
+        expires: 1,
+        SameSite: "Strict",
+        secure: true,
+      });
 
-    setCurrentUser(user);
+      setCurrentUser(user);
+    } catch (error) {
+      console.error("Error al registrar el usuario", error);
+      throw new Error("Error al registrar el usuario");
+    }
   };
   //#endregion
 
