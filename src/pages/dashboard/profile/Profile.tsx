@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { useAuth } from "../../../providers/AuthContext";
 import { uploadProfileImage } from "../../../utils/uploadProfileImage";
 import { db } from "../../../firebase/firebase";
@@ -80,8 +80,11 @@ const Profile: React.FC = () => {
     setLoading(true);
     try {
       const profileImageUrl = await uploadProfileImage(currentUser!.uid, file);
+      if (!profileImageUrl) {
+        throw new Error("Error al subir la imagen");
+      }
       const userRef = doc(db, "users", currentUser!.uid);
-      await updateDoc(userRef, { profileImage: profileImageUrl });
+      await setDoc(userRef, { profileImage: profileImageUrl }, { merge: true });
 
       notification.success({ message: "Imagen de perfil actualizada" });
       setProfileImage(profileImageUrl);
