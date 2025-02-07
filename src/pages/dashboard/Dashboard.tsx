@@ -149,10 +149,10 @@ const Dashboard = () => {
         {/* Contenido Principal */}
         <Content className="content">
           <Routes>
-            <Route path="inicio" element={<p>Inicio</p>} />
+            <Route path="inicio" element={null} />
             <Route path="perfil" element={<Profile />} />
             <Route path="games" element={<MyGames />} />
-            <Route path="configuracion" element={<p>Configuracion</p>} />
+            <Route path="configuracion" element={null} />
             {/* Redirección por defecto */}
             <Route path="*" element={<Navigate to="inicio" />} />
           </Routes>
