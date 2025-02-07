@@ -1,78 +1,90 @@
 [
   {
-    "question": "¿En qué año se fundó Formosa?",
-    "answer": "Formosa fue fundada el 8 de abril de 1879."
+    "question": "Menciona dos lenguajes de programación inspiradores de Scratch.",
+    "answer": "Logo y Smalltalk orientado a objetos."
   },
   {
-    "question": "¿Quién fundó Formosa?",
-    "answer": "El comandante Luis Jorge Fontana"
+    "question": "¿Qué es Scratch?",
+    "answer": "Un lenguaje de programación visual para crear juegos, animaciones e historias de forma sencilla y divertida."
   },
   {
-    "question": "¿En qué año se provincializó?",
-    "answer": "Formosa se provincializó en 1955."
+    "question": "Señala tres formas de añadir un escenario en Scratch.",
+    "answer": "Dibujarlo, seleccionar uno de la galería o subir una imagen desde la computadora."
   },
   {
-    "question": "¿Cómo se llama la Empresa Formoseña que fabrica la Pizarra Digital TOMI?",
-    "answer": "La Clase Digital"
+    "question": "¿Cómo se llama la zona donde se arrastran los bloques para programar?",
+    "answer": "El área de scripts o zona de programación."
   },
   {
-    "question": "¿Cómo se llama la Empresa Formoseña que Desarrolla VideoJuegos Publicitarios?",
-    "answer": "Formosa Software Factory"
+    "question": "¿Cómo cambiar el idioma de Scratch a español?",
+    "answer": "En el menú \"Settings\" (configuración), seleccionar \"Español (Latinoamericano)\" en \"Language\"."
   },
   {
-    "question": "¿Cuántas regiones la conforman?",
-    "answer": "Formosa está conformada por 9 departamentos administrativos."
+    "question": "¿Qué extensión se usa para dibujar en Scratch y cómo se activa?",
+    "answer": "La extensión \"Lápiz\", que se activa desde el menú de extensiones en la zona inferior."
   },
   {
-    "question": "¿Cómo se llama el Sandwich típico de Formosa, con queso gratinado arriba?",
-    "answer": "Alito"
+    "question": "¿Cómo se incorpora sonido a un proyecto?",
+    "answer": "Usando sonidos de la biblioteca, grabando audios, subiendo archivos o añadiendo la extensión de música."
   },
   {
-    "question": "¿Qué río la separa de la provincia de Chaco?",
-    "answer": "El río Bermejo separa Formosa de Chaco."
+    "question": "¿Qué sucede si se elimina un personaje que tiene bloques de programación asignados?",
+    "answer": "Los bloques asociados también se eliminan. Se recomienda cambiar el disfraz en lugar de borrarlo."
   },
   {
-    "question": "¿Cuántos habitantes tiene según el Censo 2022?",
-    "answer": "640,000 habitantes."
+    "question": "¿Cómo se puede convertir un dibujo físico en un personaje de Scratch?",
+    "answer": "Tomarle una foto, subirla como objeto y editarla en el editor de disfraces."
   },
   {
-    "question": "¿Quién fue Esteban Laureano Maradona?",
-    "answer": "Fue un médico, naturalista y filántropo que dedicó su vida al servicio de comunidades indígenas y rurales en Formosa."
+    "question": "¿Qué son las variables y cómo se relacionan con un juego de \"arañas venenosas\"?",
+    "answer": "Son 'cajas' que almacenan datos (ej. \"vidas\" o \"puntos\"). En el juego, se usan para restar vidas al tocar un objeto por ejemplo."
   },
   {
-    "question": "Menciona dos especies arbóreas autóctonas",
-    "answer": "El quebracho colorado y el lapacho."
+    "question": "¿Cómo se crea un bloque personalizado como \"Saltar\" en Scratch?",
+    "answer": "Desde \"Mis Bloques > Crear un bloque\", definiendo los movimientos (cambiar coordenadas y tiempo)."
   },
   {
-    "question": "Menciona dos animales autóctonos",
-    "answer": "El yaguareté y el carpincho."
+    "question": "¿Qué función cumple la extensión \"Lápiz\" en el proyecto de la tortuga y el mapache?",
+    "answer": "Dibujar el recorrido de la tortuga y simular su movimiento mientras busca comida."
   },
   {
-    "question": "¿Cuáles son las etnias originarias que la habitaron y la habitan?",
-    "answer": "Las etnias incluyen los wichís, qom y pilagás."
+    "question": "¿Para qué sirve la \"mochila\" en Scratch?",
+    "answer": "Guardar objetos, códigos o disfraces para reutilizarlos en otros proyectos."
   },
   {
-    "question": "¿Qué es el Bañado La Estrella, considerado una de las mayores reservas naturales de Argentina?",
-    "answer": "Es un humedal"
+    "question": "¿Qué diferencia hay entre programar en línea y usar Scratch sin internet?",
+    "answer": "La versión online guarda proyectos automáticamente; la versión descargable requiere instalación pero funciona offline."
   },
   {
-    "question": "¿Dónde está ubicada la Facultad de Medicina, recientemente creada?",
-    "answer": "En Laguna Blanca UNLaB"
+    "question": "Verdadero o Falso: Scratch fue creado por una empresa privada para fines comerciales.",
+    "answer": "Falso. Fue desarrollado por el MIT para educación infantil."
   },
   {
-    "question": "¿Cuántas hectáreas tiene el Polo Tecnológico de Formosa?",
-    "answer": "El Polo Tecnológico de Formosa cuenta con 574 hectáreas"
+    "question": "Relaciona cada bloque de color con su función:\nMovimiento (Azul)\nEventos (Amarillo)\nVariables (Naranja)",
+    "answer": "Movimiento (controlar desplazamiento), Eventos (iniciar acciones), Variables (almacenar datos)."
   },
   {
-    "question": "¿Cómo se llama la Empresa AgroIndustrial Formoseña que produce liofilizados, Snacks de Mango, sopa Paraguaya Congelada, etc.?",
-    "answer": "Nutrifor"
+    "question": "¿Qué se debe hacer si no se puede compartir un proyecto?",
+    "answer": "Verificar la confirmación del correo electrónico, ya que los proyectos son privados hasta activar la cuenta."
   },
   {
-    "question": "¿Cómo se llama la Empresa que está en Formosa y es la única en el mundo que produce extracto de Tanino del Quebracho Colorado?",
-    "answer": "Unitan"
+    "question": "¿Qué es un \"objeto\" en Scratch?",
+    "answer": "Un personaje, imagen o elemento interactivo en el proyecto (ej. un gato, una pelota)."
   },
   {
-    "question": "La Mecatrónica es un área que integra varias disciplinas como la electrónica, la mecánica, el control automático y las tecnologías de la información, ¿dónde se puede estudiar en Formosa?",
-    "answer": "En el Instituto Politécnico Formosa - Dr. Alberto Zorrilla."
+    "question": "¿Cómo hacer que un objeto desaparezca en Scratch?",
+    "answer": "Usar el bloque esconder (categoría Apariencia)."
+  },
+  {
+    "question": "¿Qué es un \"disfraz\" en Scratch?",
+    "answer": "Una variación de apariencia de un objeto (ej. cambiar la ropa de un personaje)."
+  },
+  {
+    "question": "¿Para qué sirve el bloque mover 10 pasos?",
+    "answer": "Desplazar un objeto en la dirección en la que está apuntando."
+  },
+  {
+    "question": "¿Qué hace el bloque por siempre?",
+    "answer": "Repite las acciones dentro de él de forma continua."
   }
 ]

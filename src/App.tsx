@@ -35,9 +35,9 @@ const App: React.FC = () => {
     <LoadingOutlined spin style={{ fontSize: "48px", color: "#fff" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#4bacd6",
+    "--button-bg-color": "#ff8e19",
     "--button-color": "white",
-    "--button-border-color": "#46868d",
+    "--button-border-color": "#1eaeed",
     "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
   };
 
@@ -227,7 +227,7 @@ const App: React.FC = () => {
             <p
               style={{
                 marginTop: "10px",
-                color: "#46868d",
+                color: "#1eaeed",
                 fontSize: "1.4rem",
                 fontWeight: "semibold",
               }}

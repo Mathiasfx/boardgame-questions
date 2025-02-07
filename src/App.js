@@ -75,9 +75,9 @@ var App = function () {
     // Define las variables como un objeto 4bacd6
     var customIndicator = (_jsx(LoadingOutlined, { spin: true, style: { fontSize: "48px", color: "#fff" } }));
     var buttonStyles = {
-        "--button-bg-color": "#4bacd6",
+        "--button-bg-color": "#ff8e19",
         "--button-color": "white",
-        "--button-border-color": "#46868d",
+        "--button-border-color": "#1eaeed",
         "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
     };
     // cargar preguntas desde el servidor
@@ -200,11 +200,6 @@ var App = function () {
     return (_jsxs("div", { className: "container", style: {
             padding: "20px",
             backgroundImage: "url(".concat(background, ")"),
-            backgroundSize: "65%",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: "#4bacd6",
-            minHeight: "100vh",
         }, children: [_jsxs(Modal, { className: "modalpregunta", title: "Selecciona una opci\u00F3n", open: isInitialModalVisible, footer: null, closable: false, children: [_jsx(Button, { type: "primary", onClick: usePreloadedQuestions, style: { width: "100%", marginBottom: "10px", minHeight: "50px" }, children: "Preguntas RCP" }), _jsx(Button, { type: "default", onClick: createNewQuestions, style: { width: "100%", minHeight: "50px" }, children: "Crear Mis Propias Preguntas" })] }), randomQuestion === null && loading && _jsx("h2", { children: "No hay m\u00E1s preguntas" }), loading && randomQuestion !== null && (_jsx("div", { className: "flex justify-center items-center", style: { margin: "25px", padding: "25px" }, children: _jsx(Spin, { indicator: customIndicator }) })), randomQuestion && !loading && (_jsxs(Card, { className: "".concat(showCard ? "fade-in" : "fade-out", " cartapregunta"), bordered: false, children: [_jsx("h1", { children: randomQuestion.question }), !showAnswer && (_jsx(Button, { style: {
                             marginTop: "10px",
                             backgroundColor: "#2b2926",
@@ -213,7 +208,7 @@ var App = function () {
                             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                         }, onClick: function () { return setShowAnswer(true); }, children: "Ver Respuesta" })), showAnswer && (_jsx("p", { style: {
                             marginTop: "10px",
-                            color: "#46868d",
+                            color: "#1eaeed",
                             fontSize: "1.4rem",
                             fontWeight: "semibold",
                         }, children: randomQuestion.answer }))] })), _jsx(Button, { type: "default", className: "custom-button", onClick: getRandomQuestion, style: __assign({ minHeight: "50px" }, buttonStyles), children: "Obtener Pregunta" }), _jsx(Button, { type: "default", icon: _jsx(SettingOutlined, {}), onClick: function () { return setIsConfigModalVisible(true); }, style: { position: "absolute", top: "20px", right: "20px" } }), _jsxs(Modal, { title: "Configurar Preguntas", open: isConfigModalVisible, onCancel: function () { return setIsConfigModalVisible(false); }, footer: null, children: [_jsx("h3", { children: "Agregar Nueva Pregunta" }), _jsx(Input, { placeholder: "Escribe una nueva pregunta", value: newQuestion, onChange: function (e) { return setNewQuestion(e.target.value); }, style: { marginBottom: "10px" } }), _jsx(Input, { placeholder: "Escribe la respuesta", value: newAnswer, onChange: function (e) { return setNewAnswer(e.target.value); }, style: { marginBottom: "10px" } }), _jsx(Button, { type: "primary", icon: _jsx(PlusOutlined, {}), onClick: addNewQuestion, style: { marginTop: "10px", minHeight: "50px" }, children: "Agregar Pregunta" }), _jsx("h3", { style: { marginTop: "20px" }, children: "Listado de Preguntas" }), _jsx(List, { dataSource: questions, renderItem: function (item, index) { return (_jsx(List.Item, { actions: [
