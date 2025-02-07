@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../providers/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Typography, notification, Checkbox } from "antd";
+import { Form, Input, Typography, notification, Checkbox } from "antd";
 import styles from "./RegisterPage.module.css";
 import registerIllus from "../../assets/illustrations/registerillustration.svg";
 
@@ -19,6 +19,7 @@ const RegisterPage = () => {
   }) => {
     setLoading(true);
     try {
+      console.log(loading);
       await register(values.email, values.password, values.name);
       notification.success({ message: "Registro exitoso" });
       navigate("/dashboard");
@@ -148,9 +149,9 @@ const RegisterPage = () => {
             </Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
+            {/* <Button type="primary" htmlType="submit" loading={loading} block>
               Crear cuenta
-            </Button>
+            </Button> */}
           </Form.Item>
         </Form>
       </div>

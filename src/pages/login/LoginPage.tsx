@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../providers/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Typography, notification, Checkbox } from "antd";
 import styles from "./LoginPage.module.css"; // Importa los estilos
 import loginIllustration from "../../assets/illustrations/loginillustration.svg";
@@ -132,9 +132,6 @@ const LoginPage = () => {
               Iniciar Sesión
             </Button>
           </Form.Item>
-          <p>
-            ¿No tienes cuenta? <Link to="/register">Registrate</Link>
-          </p>
         </Form>
       </div>
     </div>
