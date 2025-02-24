@@ -8,7 +8,7 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import "./App.css";
-import background from "./assets/background.png";
+import background from "./assets/background.jpg";
 
 interface Question {
   question: string;
@@ -32,12 +32,12 @@ const App: React.FC = () => {
 
   // Define las variables como un objeto 4bacd6
   const customIndicator = (
-    <LoadingOutlined spin style={{ fontSize: "48px", color: "#fff" }} />
+    <LoadingOutlined spin style={{ fontSize: "48px", color: "#f5d93e" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#ff8e19",
+    "--button-bg-color": "#bb0030",
     "--button-color": "white",
-    "--button-border-color": "#1eaeed",
+    "--button-border-color": "#2434a5",
     "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
   };
 
@@ -61,6 +61,7 @@ const App: React.FC = () => {
     loadQuestions();
   }, []);
 
+  //#region Trivia y Preguntas
   // obtener una pregunta aleatoria sin repetir
   const getRandomQuestion = () => {
     setShowAnswer(false);
@@ -158,6 +159,7 @@ const App: React.FC = () => {
     setIsInitialModalVisible(false); // Cierra el modal inicial
     setIsConfigModalVisible(true);
   };
+  //#endregion
 
   return (
     <div
@@ -208,7 +210,9 @@ const App: React.FC = () => {
           className={`${showCard ? "fade-in" : "fade-out"} cartapregunta`}
           bordered={false}
         >
-          <h1>{randomQuestion.question}</h1>
+          <h2 style={{ fontSize: "1.9rem", fontWeight: "bold" }}>
+            {randomQuestion.question}
+          </h2>
           {!showAnswer && (
             <Button
               style={{
@@ -227,8 +231,8 @@ const App: React.FC = () => {
             <p
               style={{
                 marginTop: "10px",
-                color: "#1eaeed",
-                fontSize: "1.4rem",
+                color: "#2434a5",
+                fontSize: "1.6rem",
                 fontWeight: "semibold",
               }}
             >

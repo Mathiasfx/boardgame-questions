@@ -1,90 +1,78 @@
 [
   {
-    "question": "Menciona dos lenguajes de programación inspiradores de Scratch.",
-    "answer": "Logo y Smalltalk orientado a objetos."
+    "question": "Quién es el Presidente del Paraguay Electo desde el 2023 al 2028?",
+    "answer": "Santiago Peña"
   },
   {
-    "question": "¿Qué es Scratch?",
-    "answer": "Un lenguaje de programación visual para crear juegos, animaciones e historias de forma sencilla y divertida."
+    "question": "¿Qué ríos forman parte de la Hidrovía Paraguay-Paraná?",
+    "answer": "Río Paraguay y Río Paraná"
   },
   {
-    "question": "Señala tres formas de añadir un escenario en Scratch.",
-    "answer": "Dibujarlo, seleccionar uno de la galería o subir una imagen desde la computadora."
+    "question": "¿Cuál es la moneda oficial de Paraguay?",
+    "answer": "Guaraní (PYG)"
   },
   {
-    "question": "¿Cómo se llama la zona donde se arrastran los bloques para programar?",
-    "answer": "El área de scripts o zona de programación."
+    "question": "¿Cuántos habitantes tiene Paraguay aproximadamente en 2024?",
+    "answer": "Aproximadamente 7,5 millones"
   },
   {
-    "question": "¿Cómo cambiar el idioma de Scratch a español?",
-    "answer": "En el menú \"Settings\" (configuración), seleccionar \"Español (Latinoamericano)\" en \"Language\"."
+    "question": "¿Cómo se llama la festividad religiosa más importante de Paraguay?",
+    "answer": "Fiesta de la Virgen de Caacupé"
   },
   {
-    "question": "¿Qué extensión se usa para dibujar en Scratch y cómo se activa?",
-    "answer": "La extensión \"Lápiz\", que se activa desde el menú de extensiones en la zona inferior."
+    "question": "¿Qué instrumento musical es símbolo de Paraguay?",
+    "answer": "Arpa paraguaya"
   },
   {
-    "question": "¿Cómo se incorpora sonido a un proyecto?",
-    "answer": "Usando sonidos de la biblioteca, grabando audios, subiendo archivos o añadiendo la extensión de música."
+    "question": "¿Qué idioma, además del español, es oficial en Paraguay?",
+    "answer": "Guaraní"
   },
   {
-    "question": "¿Qué sucede si se elimina un personaje que tiene bloques de programación asignados?",
-    "answer": "Los bloques asociados también se eliminan. Se recomienda cambiar el disfraz en lugar de borrarlo."
+    "question": "¿Cómo se llama el autor del Multipremiado Libro \"Chipas de Raíces Profundas, Páginas con Sabor”",
+    "answer": "¨Grillo¨ Benitez"
   },
   {
-    "question": "¿Cómo se puede convertir un dibujo físico en un personaje de Scratch?",
-    "answer": "Tomarle una foto, subirla como objeto y editarla en el editor de disfraces."
+    "question": "¿Cómo se llama la sopa sólida que se come en Paraguay?",
+    "answer": "Sopa paraguaya"
   },
   {
-    "question": "¿Qué son las variables y cómo se relacionan con un juego de \"arañas venenosas\"?",
-    "answer": "Son 'cajas' que almacenan datos (ej. \"vidas\" o \"puntos\"). En el juego, se usan para restar vidas al tocar un objeto por ejemplo."
+    "question": "¿Cuál es la bebida fría tradicional preparada con yerba mate y agua fría?",
+    "answer": "Tereré"
   },
   {
-    "question": "¿Cómo se crea un bloque personalizado como \"Saltar\" en Scratch?",
-    "answer": "Desde \"Mis Bloques > Crear un bloque\", definiendo los movimientos (cambiar coordenadas y tiempo)."
+    "question": "¿Cuál es el plato típico hecho con harina de maíz y queso?",
+    "answer": "Chipa"
   },
   {
-    "question": "¿Qué función cumple la extensión \"Lápiz\" en el proyecto de la tortuga y el mapache?",
-    "answer": "Dibujar el recorrido de la tortuga y simular su movimiento mientras busca comida."
+    "question": "¿Qué ciudad paraguaya es conocida como la \"Capital del Verano\"?",
+    "answer": "San Bernardino"
   },
   {
-    "question": "¿Para qué sirve la \"mochila\" en Scratch?",
-    "answer": "Guardar objetos, códigos o disfraces para reutilizarlos en otros proyectos."
+    "question": "¿Cómo se llama la mayor represa hidroeléctrica compartida entre Paraguay y Brasil?",
+    "answer": "Itaipú"
   },
   {
-    "question": "¿Qué diferencia hay entre programar en línea y usar Scratch sin internet?",
-    "answer": "La versión online guarda proyectos automáticamente; la versión descargable requiere instalación pero funciona offline."
+    "question": "¿Cuál es la capital de Paraguay?",
+    "answer": "Asunción"
   },
   {
-    "question": "Verdadero o Falso: Scratch fue creado por una empresa privada para fines comerciales.",
-    "answer": "Falso. Fue desarrollado por el MIT para educación infantil."
+    "question": "¿Qué guerra libró Paraguay contra Bolivia?",
+    "answer": "Guerra del Chaco"
   },
   {
-    "question": "Relaciona cada bloque de color con su función:\nMovimiento (Azul)\nEventos (Amarillo)\nVariables (Naranja)",
-    "answer": "Movimiento (controlar desplazamiento), Eventos (iniciar acciones), Variables (almacenar datos)."
+    "question": "¿En qué año se independizó Paraguay?",
+    "answer": "1811"
   },
   {
-    "question": "¿Qué se debe hacer si no se puede compartir un proyecto?",
-    "answer": "Verificar la confirmación del correo electrónico, ya que los proyectos son privados hasta activar la cuenta."
+    "question": "Cuál fue el primer presidente de Paraguay?",
+    "answer": "Carlos Antonio López"
   },
   {
-    "question": "¿Qué es un \"objeto\" en Scratch?",
-    "answer": "Un personaje, imagen o elemento interactivo en el proyecto (ej. un gato, una pelota)."
+    "question": "Cómo se llama la Principal organización que agrupa a las empresas y entidades dedicadas al desarrollo de software en Paraguay?",
+    "answer": "CISOFT - Cámara Paraguaya de la Industria del Software"
   },
   {
-    "question": "¿Cómo hacer que un objeto desaparezca en Scratch?",
-    "answer": "Usar el bloque esconder (categoría Apariencia)."
-  },
-  {
-    "question": "¿Qué es un \"disfraz\" en Scratch?",
-    "answer": "Una variación de apariencia de un objeto (ej. cambiar la ropa de un personaje)."
-  },
-  {
-    "question": "¿Para qué sirve el bloque mover 10 pasos?",
-    "answer": "Desplazar un objeto en la dirección en la que está apuntando."
-  },
-  {
-    "question": "¿Qué hace el bloque por siempre?",
-    "answer": "Repite las acciones dentro de él de forma continua."
+    "question": "Cómo se llama la Empresa Paraguaya que Desarrolla y Comercializa Soluciones Tecno Educativas?",
+    "answer": "La Clase Digital"
   }
 ]
