@@ -10,6 +10,7 @@ import {
   notification,
   Upload,
   ColorPicker,
+  Tooltip,
 } from "antd";
 
 import {
@@ -19,6 +20,7 @@ import {
   LinkOutlined,
   UploadOutlined,
   GlobalOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
 import {
   createBoard,
@@ -31,6 +33,7 @@ import { useAuth } from "../../../providers/AuthContext";
 import { Board } from "../../../interfaces/iboard.model";
 import { uploadBackgroundImage } from "../../../firebase/storageService";
 import { Link } from "react-router-dom";
+import jsPDF from "jspdf";
 
 const MyGames: React.FC = () => {
   const { currentUser } = useAuth();
@@ -229,6 +232,159 @@ const MyGames: React.FC = () => {
   };
   //#endregion
 
+  //#region color hex a RGB
+  const hexToRgb = (hex: string): [number, number, number] => {
+    hex = hex.replace(/^#/, "");
+    if (hex.length === 3) {
+      hex = hex
+        .split("")
+        .map((char) => char + char)
+        .join("");
+    }
+    const bigint = parseInt(hex, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return [r, g, b];
+  };
+  //#endregion
+
+  //#region Descargar tarjetas en PDF
+  const downloadCardsPDF = (board: Board) => {
+    const { questions } = board;
+    // Parámetros de la página
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+    const pageWidth = 210;
+    const pageHeight = 297;
+
+    // Ajustes de distribución de tarjetas
+    const outerMargin = 5;
+    const gap = 5;
+    const cols = 3;
+    const availableWidth = pageWidth - 2 * outerMargin - (cols - 1) * gap;
+    const cardWidth = availableWidth / cols; // ~63 mm
+    const cardHeight = cardWidth * (95 / 55); // ~109 mm
+    const rows = Math.floor(
+      (pageHeight - 2 * outerMargin + gap) / (cardHeight + gap)
+    );
+
+    // Color primario del board para el borde
+    const [r, g, b] = board.colorPrimary
+      ? hexToRgb(board.colorPrimary)
+      : [83, 91, 242];
+
+    let currentCol = 0;
+    let currentRow = 0;
+    const padding = 5;
+    const lineHeight = 7;
+
+    // ---------------------------
+    // 1) Páginas de FRENTE
+    // ---------------------------
+    questions.forEach((item, index) => {
+      const x = outerMargin + currentCol * (cardWidth + gap);
+      const y = outerMargin + currentRow * (cardHeight + gap);
+
+      // Tarjeta: fondo blanco + borde colorPrimario
+      doc.setFillColor(255, 255, 255);
+      doc.setLineWidth(2);
+      doc.setDrawColor(r, g, b);
+      doc.roundedRect(x, y, cardWidth, cardHeight, 5, 5, "DF");
+
+      // Texto de la pregunta en bold
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0); // texto negro
+      const textLines = doc.splitTextToSize(
+        item.question,
+        cardWidth - 2 * padding
+      );
+      const textBlockHeight = textLines.length * lineHeight;
+      const textY = y + (cardHeight - textBlockHeight) / 2 + lineHeight / 2;
+      doc.text(textLines, x + cardWidth / 2, textY, { align: "center" });
+
+      // Actualizar posición de columna/fila
+      currentCol++;
+      if (currentCol === cols) {
+        currentCol = 0;
+        currentRow++;
+      }
+      // Si se llena la página y quedan más tarjetas, nueva página
+      if (currentRow === rows && index < questions.length - 1) {
+        doc.addPage();
+        currentCol = 0;
+        currentRow = 0;
+      }
+    });
+
+    // ---------------------------
+    // 2) Páginas del DORSO
+    // ---------------------------
+    const addBackSide = () => {
+      const backsideText = `¿Cuanto sabes de ...?`;
+      const totalCards = questions.length;
+      let processedCards = 0;
+
+      while (processedCards < totalCards) {
+        doc.addPage();
+        currentCol = 0;
+        currentRow = 0;
+
+        while (currentRow < rows && processedCards < totalCards) {
+          const x = outerMargin + currentCol * (cardWidth + gap);
+          const y = outerMargin + currentRow * (cardHeight + gap);
+
+          // Tarjeta del dorso: fondo gris claro + borde colorPrimario
+          doc.setFillColor(230, 230, 230);
+          doc.setLineWidth(2);
+          doc.setDrawColor(r, g, b);
+          doc.roundedRect(x, y, cardWidth, cardHeight, 5, 5, "DF");
+
+          // Texto estilo "escrito": bolditalic + contorno negro y relleno blanco
+          doc.setFont("helvetica", "bolditalic");
+          doc.setFontSize(24);
+          // Hacemos un split en caso de que el título sea muy largo
+          const backsideLines = doc.splitTextToSize(
+            backsideText,
+            cardWidth - 2 * padding
+          );
+          const backsideBlockHeight = backsideLines.length * (lineHeight + 2);
+          const backsideTextY =
+            y + (cardHeight - backsideBlockHeight) / 2 + lineHeight / 2;
+
+          // Activar renderizado con contorno (stroke) y relleno (fill)
+          doc.setLineJoin("round"); // esquinas redondeadas en el contorno
+          doc.setLineWidth(0.7); // grosor del contorno
+          doc.setDrawColor(0, 0, 0); // contorno negro
+          doc.setTextColor(24, 23, 28);
+
+          // Imprimir el texto con "fillThenStroke" para lograr el efecto contorneado
+          doc.text(backsideLines, x + cardWidth / 2, backsideTextY, {
+            align: "center",
+          });
+
+          currentCol++;
+          if (currentCol === cols) {
+            currentCol = 0;
+            currentRow++;
+          }
+          processedCards++;
+        }
+      }
+    };
+
+    // Generar el dorso
+    addBackSide();
+
+    // Finalmente, descargar
+    doc.save(`${board.title}_tarjetas.pdf`);
+  };
+
+  //#endregion
   return (
     <div>
       <div
@@ -261,23 +417,38 @@ const MyGames: React.FC = () => {
           key="actions"
           render={(_, trivia) => (
             <Space>
-              <Link to={`/game/${trivia.slug}`}>
-                <Button icon={<GlobalOutlined />} />
-              </Link>
+              <Tooltip title="Ver Juego online" placement="top">
+                <Link to={`/game/${trivia.slug}`}>
+                  <Button icon={<GlobalOutlined />} />
+                </Link>
+              </Tooltip>
 
-              <Button
-                icon={<LinkOutlined />}
-                onClick={() => handleCopyLink(trivia.slug)}
-              />
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => handleEditTrivia(trivia)}
-              />
-              <Button
-                icon={<DeleteOutlined />}
-                danger
-                onClick={() => handleDeleteTrivia(trivia.id)}
-              />
+              <Tooltip placement="top" title="Copiar enlace">
+                <Button
+                  icon={<LinkOutlined />}
+                  onClick={() => handleCopyLink(trivia.slug)}
+                />
+              </Tooltip>
+
+              <Tooltip title="Descargar Tarjetas" placement="top">
+                <Button
+                  icon={<DownloadOutlined />}
+                  onClick={() => downloadCardsPDF(trivia as Board)}
+                />
+              </Tooltip>
+              <Tooltip title="Editar Trivia" placement="top">
+                <Button
+                  icon={<EditOutlined />}
+                  onClick={() => handleEditTrivia(trivia)}
+                />
+              </Tooltip>
+              <Tooltip title="Eliminar Trivia" placement="top">
+                <Button
+                  icon={<DeleteOutlined />}
+                  danger
+                  onClick={() => handleDeleteTrivia(trivia.id)}
+                />
+              </Tooltip>
             </Space>
           )}
         />

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../providers/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Typography, notification, Checkbox } from "antd";
+//import { Button } from "antd";
 import styles from "./RegisterPage.module.css";
 import registerIllus from "../../assets/illustrations/registerillustration.svg";
 

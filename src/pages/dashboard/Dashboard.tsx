@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Button, Flex, Layout, Menu, Typography } from "antd";
 import {
   UserOutlined,
-  SettingOutlined,
   LogoutOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -100,11 +99,6 @@ const Dashboard = () => {
               key: "/dashboard/games",
               icon: <UnorderedListOutlined />,
               label: "Mis Juegos",
-            },
-            {
-              key: "/dashboard/configuracion",
-              icon: <SettingOutlined />,
-              label: "Configuración",
             },
           ]}
         />
