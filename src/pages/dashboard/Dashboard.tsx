@@ -54,7 +54,7 @@ const Dashboard = () => {
                 height="24"
                 rx="3"
                 stroke="white"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <line
                 x1="20"
@@ -62,7 +62,7 @@ const Dashboard = () => {
                 x2="20"
                 y2="32"
                 stroke="white"
-                stroke-width="2"
+                strokeWidth="2"
               />
               <line
                 x1="8"
@@ -70,7 +70,7 @@ const Dashboard = () => {
                 x2="32"
                 y2="20"
                 stroke="white"
-                stroke-width="2"
+                strokeWidth="2"
               />
 
               <circle cx="30" cy="30" r="4" fill="white" />
