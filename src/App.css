@@ -87,10 +87,10 @@
   -o-border-radius: 20px;
 }
 .container {
-  background-size: 60%;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #000600;
+  background-color: #008445;
   min-height: 90vh;
 }
 
@@ -98,6 +98,6 @@
 @media (max-width: 768px) {
   .container {
     min-height: auto;
-    background-size: contain !important; /* Asegura que la imagen completa se vea */
+    background-size: cover !important; /* Asegura que la imagen completa se vea */
   }
 }

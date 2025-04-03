@@ -30,17 +30,17 @@ html,
 .container {
   position: relative;
   width: 100vw;
-  height: 100vh; /* Ajusta a toda la ventana */
+  height: 100vh; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-image: var(--background);
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
-}
+}/*
 
-/* Imagen 1 
+ Imagen 1 
 .container::before {
   content: '';
   position: absolute;
