@@ -5,4 +5,5 @@ colorPrimary: string;
 colorSecondary: string;
 background: string;
 questions: {question: string; answer: string}[];
+diceFaces?: string[];
 }
