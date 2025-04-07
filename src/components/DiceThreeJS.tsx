@@ -5,7 +5,13 @@ import { Physics, useBox, usePlane } from "@react-three/cannon";
 import { Mesh } from "three";
 import * as THREE from "three";
 
-export default function DiceThreeJS({ showDice }: { showDice: boolean }) {
+export default function DiceThreeJS({
+  showDice,
+  diceFaces,
+}: {
+  showDice: boolean;
+  diceFaces: string[];
+}) {
   const [isRolling, setIsRolling] = useState(false);
   if (!showDice) return null;
 
@@ -46,7 +52,11 @@ export default function DiceThreeJS({ showDice }: { showDice: boolean }) {
         <directionalLight position={[5, 5, 5]} intensity={1} castShadow />
         <Physics gravity={[0, -9.8, 0]}>
           <Plane />
-          <Dice isRolling={isRolling} setIsRolling={setIsRolling} />
+          <Dice
+            isRolling={isRolling}
+            setIsRolling={setIsRolling}
+            diceFaces={diceFaces}
+          />
         </Physics>
         <OrbitControls enablePan={false} enableZoom={false} />
       </Canvas>
@@ -77,7 +87,11 @@ interface DiceProps {
   setIsRolling: (value: boolean) => void;
 }
 
-function Dice({ isRolling, setIsRolling }: DiceProps) {
+function Dice({
+  isRolling,
+  setIsRolling,
+  diceFaces,
+}: DiceProps & { diceFaces: string[] }) {
   const [ref, api] = useBox<Mesh>(() => ({
     mass: 1,
     position: [0, 2, 0],
@@ -108,7 +122,7 @@ function Dice({ isRolling, setIsRolling }: DiceProps) {
       <boxGeometry args={[2, 2, 2]} />
       <meshStandardMaterial color="white" />
       {/* Agregamos las caras del dado */}
-      {["1", "2", "3", "4", "Play", "Stop"].map((face, index) => (
+      {diceFaces.map((face, index) => (
         <Face key={index} text={face} faceIndex={index} />
       ))}
     </mesh>
