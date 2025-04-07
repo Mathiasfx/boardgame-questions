@@ -23,6 +23,7 @@ const Game: React.FC = () => {
     background?: string;
     colorPrimary: string;
     colorSecondary: string;
+    diceFaces?: string[];
   } | null>(null);
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const Game: React.FC = () => {
           colorPrimary: config.colorPrimary,
           colorSecondary: config.colorSecondary,
           background: config.background,
+          diceFaces: config.diceFaces,
         });
         setQuestions(config.questions);
       }
@@ -201,7 +203,12 @@ const Game: React.FC = () => {
         icon={<SettingOutlined />}
         style={{ position: "absolute", top: "20px", right: "20px" }}
       ></Button> */}
-        <DiceThreeJS showDice={showDice} />
+        <DiceThreeJS
+          showDice={showDice}
+          diceFaces={
+            gameConfig?.diceFaces || ["1", "2", "3", "4", "Play", "Stop"]
+          }
+        />
       </div>
     </div>
   );

@@ -49,6 +49,14 @@ const MyGames: React.FC = () => {
   >([]);
   const [editTriviaId, setEditTriviaId] = useState<string | null>(null);
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+  const [diceFaces, setDiceFaces] = useState<string[]>([
+    "1",
+    "2",
+    "3",
+    "4",
+    "Play",
+    "Stop",
+  ]);
 
   useEffect(() => {
     if (currentUser) {
@@ -154,6 +162,7 @@ const MyGames: React.FC = () => {
           colorSecondary,
           background: imageUrl,
           questions,
+          diceFaces,
         });
         notification.success({ message: "Board actualizado" });
       } else {
@@ -164,6 +173,7 @@ const MyGames: React.FC = () => {
           colorSecondary,
           background: imageUrl,
           questions,
+          diceFaces,
         };
         await createBoard(board);
         notification.success({ message: "Board Creado" });
@@ -491,6 +501,28 @@ const MyGames: React.FC = () => {
             onChange={(color) => setColorSecondary(color.toHexString())}
           />
         </div>
+        <h4>Caras del Dado</h4>
+        {diceFaces.map((face, index) => (
+          <div key={index} style={{ marginBottom: 10 }}>
+            <Input
+              placeholder={`Cara ${index + 1}`}
+              value={face}
+              onChange={(e) => {
+                const updatedFaces = [...diceFaces];
+                updatedFaces[index] = e.target.value;
+                setDiceFaces(updatedFaces);
+              }}
+            />
+          </div>
+        ))}
+
+        <Button
+          onClick={
+            () => setDiceFaces(["1", "2", "3", "4", "Play", "Stop"]) // Restablecer a valores por defecto
+          }
+        >
+          Restablecer Caras por Defecto
+        </Button>
 
         <Upload
           beforeUpload={() => false} // Evita la carga automática
