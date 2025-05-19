@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Text, OrbitControls, Environment } from "@react-three/drei";
@@ -13,6 +14,24 @@ export default function DiceThreeJS({
   diceFaces: string[];
 }) {
   const [isRolling, setIsRolling] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    // Cleanup del contexto WebGL al desmontar
+    const canvas = canvasRef.current;
+    return () => {
+      if (canvas) {
+        const gl = canvas.getContext("webgl") || canvas.getContext("webgl2");
+        if (gl) {
+          const loseContext = gl.getExtension("WEBGL_lose_context");
+          if (loseContext) {
+            loseContext.loseContext();
+          }
+        }
+      }
+    };
+  }, []);
+
   if (!showDice) return null;
 
   return (
@@ -35,6 +54,7 @@ export default function DiceThreeJS({
         </button>
       </div>
       <Canvas
+        ref={canvasRef as any}
         shadows
         camera={{ position: [0, 4, 8], fov: 48 }}
         style={{
