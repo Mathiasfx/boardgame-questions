@@ -29,6 +29,21 @@ const App: React.FC = () => {
   const [isInitialModalVisible, setIsInitialModalVisible] =
     useState<boolean>(false); // Modal inicial
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
+  // Modal para seleccionar cantidad de jugadores
+  const [isPlayerModalVisible, setIsPlayerModalVisible] = useState(true);
+  const [numPlayers, setNumPlayers] = useState<number>(2);
+
+  // Colores para las fichas de los jugadores
+  const PLAYER_COLORS = ["#e74c3c", "#3498db", "#f1c40f", "#27ae60"];
+
+  interface Player {
+    id: number;
+    color: string;
+    x: number;
+    y: number;
+  }
+
+  const TOKEN_RADIUS = 28; // px
 
   // Define las variables como un objeto 4bacd6
   const customIndicator = (
@@ -40,6 +55,13 @@ const App: React.FC = () => {
     "--button-border-color": "#008445",
     "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
   };
+
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [draggedPlayerId, setDraggedPlayerId] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
   // cargar preguntas desde el servidor
   useEffect(() => {
@@ -60,6 +82,30 @@ const App: React.FC = () => {
 
     loadQuestions();
   }, []);
+
+  // Inicializar jugadores cuando se selecciona la cantidad
+  useEffect(() => {
+    if (!isPlayerModalVisible) {
+      // Posiciones iniciales (esquinas)
+      const boardW = window.innerWidth;
+      const boardH = window.innerHeight;
+      const positions = [
+        { x: 60, y: 60 },
+        { x: boardW - 60, y: 60 },
+        { x: 60, y: boardH - 120 },
+        { x: boardW - 60, y: boardH - 120 },
+      ];
+      setPlayers(
+        Array.from({ length: numPlayers }).map((_, i) => ({
+          id: i,
+          color: PLAYER_COLORS[i],
+          x: positions[i].x,
+          y: positions[i].y,
+        }))
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlayerModalVisible, numPlayers]);
 
   //#region Trivia y Preguntas
   // obtener una pregunta aleatoria sin repetir
@@ -161,6 +207,64 @@ const App: React.FC = () => {
   };
   //#endregion
 
+  // Drag & drop handlers
+  const handleMouseDown = (e: React.MouseEvent, playerId: number) => {
+    setDraggedPlayerId(playerId);
+    const player = players.find((p) => p.id === playerId);
+    if (player) {
+      setDragOffset({
+        x: e.clientX - player.x,
+        y: e.clientY - player.y,
+      });
+    }
+    document.body.style.userSelect = "none";
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (draggedPlayerId !== null) {
+      setPlayers((prev) =>
+        prev.map((p) =>
+          p.id === draggedPlayerId
+            ? {
+                ...p,
+                x: Math.max(
+                  TOKEN_RADIUS,
+                  Math.min(
+                    window.innerWidth - TOKEN_RADIUS,
+                    e.clientX - dragOffset.x
+                  )
+                ),
+                y: Math.max(
+                  TOKEN_RADIUS,
+                  Math.min(
+                    window.innerHeight - TOKEN_RADIUS,
+                    e.clientY - dragOffset.y
+                  )
+                ),
+              }
+            : p
+        )
+      );
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDraggedPlayerId(null);
+    document.body.style.userSelect = "auto";
+  };
+
+  useEffect(() => {
+    if (draggedPlayerId !== null) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draggedPlayerId]);
+
   return (
     <div
       className="container"
@@ -205,41 +309,76 @@ const App: React.FC = () => {
           <Spin indicator={customIndicator} />
         </div>
       )}
-      {randomQuestion && !loading && (
-        <Card
-          className={`${showCard ? "fade-in" : "fade-out"} cartapregunta`}
-          bordered={false}
+      {randomQuestion && !loading && showCard && (
+        <div
+          style={{
+            position: "fixed",
+            left: 0,
+            top: 0,
+            width: "100vw",
+            height: "100vh",
+            zIndex: 100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <h2 style={{ fontSize: "1.9rem", fontWeight: "bold" }}>
-            {randomQuestion.question}
-          </h2>
-          {!showAnswer && (
+          <Card
+            className={`fade-in cartapregunta`}
+            bordered={false}
+            style={{
+              position: "relative",
+              minWidth: 320,
+              maxWidth: 420,
+              width: "90vw",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+            }}
+            bodyStyle={{ paddingTop: 48 }}
+          >
             <Button
+              type="text"
+              onClick={() => setShowCard(false)}
               style={{
-                marginTop: "10px",
-                backgroundColor: "#2b2926",
-                color: "white",
-                borderColor: "#2b2926",
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                position: "absolute",
+                top: 8,
+                right: 8,
+                zIndex: 101,
+                fontSize: 20,
               }}
-              onClick={() => setShowAnswer(true)}
             >
-              Ver Respuesta
+              ✕
             </Button>
-          )}
-          {showAnswer && (
-            <p
-              style={{
-                marginTop: "10px",
-                color: "#2434a5",
-                fontSize: "1.6rem",
-                fontWeight: "semibold",
-              }}
-            >
-              {randomQuestion.answer}
-            </p>
-          )}
-        </Card>
+            <h2 style={{ fontSize: "1.9rem", fontWeight: "bold" }}>
+              {randomQuestion.question}
+            </h2>
+            {!showAnswer && (
+              <Button
+                style={{
+                  marginTop: "10px",
+                  backgroundColor: "#2b2926",
+                  color: "white",
+                  borderColor: "#2b2926",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                }}
+                onClick={() => setShowAnswer(true)}
+              >
+                Ver Respuesta
+              </Button>
+            )}
+            {showAnswer && (
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: "#2434a5",
+                  fontSize: "1.6rem",
+                  fontWeight: "semibold",
+                }}
+              >
+                {randomQuestion.answer}
+              </p>
+            )}
+          </Card>
+        </div>
       )}
 
       {/* Botón para obtener una pregunta */}
@@ -353,6 +492,79 @@ const App: React.FC = () => {
           onChange={(e) => setNewAnswer(e.target.value)}
         />
       </Modal>
+
+      {/* Modal para elegir cantidad de jugadores */}
+      <Modal
+        title="Selecciona la cantidad de jugadores"
+        open={isPlayerModalVisible}
+        footer={null}
+        closable={false}
+        centered
+      >
+        <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
+          {[2, 3, 4].map((n) => (
+            <Button
+              key={n}
+              type={numPlayers === n ? "primary" : "default"}
+              onClick={() => setNumPlayers(n)}
+              style={{
+                width: 60,
+                height: 60,
+                fontSize: 24,
+                borderRadius: "50%",
+              }}
+            >
+              {n}
+            </Button>
+          ))}
+        </div>
+        <Button
+          type="primary"
+          style={{ marginTop: 24, width: "100%" }}
+          onClick={() => setIsPlayerModalVisible(false)}
+        >
+          Comenzar
+        </Button>
+      </Modal>
+
+      {/* Renderizar fichas de jugadores */}
+      {players.map((player) => (
+        <div
+          key={player.id}
+          onMouseDown={(e) => handleMouseDown(e, player.id)}
+          style={{
+            position: "absolute",
+            left: player.x - TOKEN_RADIUS,
+            top: player.y - TOKEN_RADIUS,
+            width: TOKEN_RADIUS * 2,
+            height: TOKEN_RADIUS * 2,
+            borderRadius: "50%",
+            background: player.color,
+            border: "3px solid #fff",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+            cursor: "grab",
+            zIndex: 10,
+            display: isPlayerModalVisible ? "none" : "block",
+            transition:
+              draggedPlayerId === player.id ? "none" : "box-shadow 0.2s",
+          }}
+        >
+          <span
+            style={{
+              color: "#fff",
+              fontWeight: "bold",
+              fontSize: 22,
+              lineHeight: `${TOKEN_RADIUS * 2}px`,
+              textAlign: "center",
+              width: "100%",
+              display: "block",
+              userSelect: "none",
+            }}
+          >
+            {player.id + 1}
+          </span>
+        </div>
+      ))}
     </div>
   );
 };
