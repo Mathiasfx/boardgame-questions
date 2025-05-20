@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button, Card, Spin, Tooltip } from "antd";
+import { Button, Card, Spin, Tooltip, Modal, Row, Col } from "antd";
 import { getGameConfig } from "../../firebase/gameService";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, CloseOutlined } from "@ant-design/icons";
 import { Question } from "../../interfaces/iquestion.model";
 import "../../App.css";
 import DiceThreeJS from "../../components/DiceThreeJS";
@@ -25,6 +25,15 @@ const Game: React.FC = () => {
     colorSecondary: string;
     diceFaces?: string[];
   } | null>(null);
+  const [selectPlayersVisible, setSelectPlayersVisible] = useState(true);
+  const [playerTokens, setPlayerTokens] = useState<{ x: number; y: number }[]>(
+    []
+  );
+  const [draggedToken, setDraggedToken] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
   useEffect(() => {
     const updateBgSize = () => {
@@ -90,6 +99,77 @@ const Game: React.FC = () => {
     }, 1000);
   };
 
+  const fichaColors = ["#e74c3c", "#3498db", "#27ae60", "#f1c40f"];
+
+  // Handler para seleccionar cantidad de jugadores
+  const handleSelectPlayers = (num: number) => {
+    // Posiciones iniciales separadas
+    setPlayerTokens(
+      Array(num)
+        .fill(0)
+        .map((_, i) => ({ x: 120 + i * 60, y: 220 }))
+    );
+    setSelectPlayersVisible(false);
+  };
+
+  // Drag & drop handlers para mouse
+  const handleMouseDown = (
+    idx: number,
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
+    setDraggedToken(idx);
+    setDragOffset({
+      x: e.clientX - playerTokens[idx].x,
+      y: e.clientY - playerTokens[idx].y,
+    });
+    document.body.style.userSelect = "none";
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (draggedToken !== null) {
+      const newTokens = [...playerTokens];
+      newTokens[draggedToken] = {
+        x: e.clientX - dragOffset.x,
+        y: e.clientY - dragOffset.y,
+      };
+      setPlayerTokens(newTokens);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDraggedToken(null);
+    document.body.style.userSelect = "auto";
+  };
+
+  // Drag & drop handlers para touch (mobile)
+  const handleTouchStart = (
+    idx: number,
+    e: React.TouchEvent<HTMLDivElement>
+  ) => {
+    const touch = e.touches[0];
+    setDraggedToken(idx);
+    setDragOffset({
+      x: touch.clientX - playerTokens[idx].x,
+      y: touch.clientY - playerTokens[idx].y,
+    });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (draggedToken !== null) {
+      const touch = e.touches[0];
+      const newTokens = [...playerTokens];
+      newTokens[draggedToken] = {
+        x: touch.clientX - dragOffset.x,
+        y: touch.clientY - dragOffset.y,
+      };
+      setPlayerTokens(newTokens);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setDraggedToken(null);
+  };
+
   return (
     <div
       style={{
@@ -114,8 +194,92 @@ const Game: React.FC = () => {
           backgroundAttachment: "fixed",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          position: "relative",
+          overflow: "hidden",
+          touchAction: "none", // Para evitar scroll mientras se arrastra
         }}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
+        {/* Modal para elegir cantidad de jugadores */}
+        <Modal
+          open={selectPlayersVisible}
+          closable={false}
+          footer={null}
+          centered
+          styles={{ body: { textAlign: "center" } }}
+        >
+          <h2>Selecciona la cantidad de jugadores</h2>
+          <Row gutter={16} justify="center">
+            {[2, 3, 4].map((num) => (
+              <Col key={num}>
+                <Button
+                  type="primary"
+                  shape="circle"
+                  size="large"
+                  style={{
+                    margin: 10,
+                    fontSize: 22,
+                    width: 60,
+                    height: 60,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: gameConfig?.colorPrimary || "#2b2926",
+                  }}
+                  onClick={() => handleSelectPlayers(num)}
+                >
+                  {num}
+                </Button>
+              </Col>
+            ))}
+          </Row>
+        </Modal>
+
+        {/* Renderizar fichas de jugadores sobre el fondo */}
+        {playerTokens.map((pos, idx) => (
+          <div
+            key={idx}
+            style={{
+              position: "absolute",
+              left: pos.x,
+              top: pos.y,
+              width: window.innerWidth < 879 ? 50 : 82,
+              height: window.innerWidth < 879 ? 50 : 82,
+              borderRadius: "50%",
+              background: fichaColors[idx],
+              border: "3px solid #fff",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+              cursor: "grab",
+              zIndex: 1,
+              display: selectPlayersVisible ? "none" : "block",
+              userSelect: "none",
+              touchAction: "none",
+            }}
+            onMouseDown={(e) => handleMouseDown(idx, e)}
+            onTouchStart={(e) => handleTouchStart(idx, e)}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <span
+              style={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: 24,
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                pointerEvents: "none",
+              }}
+            >
+              {idx + 1}
+            </span>
+          </div>
+        ))}
+
         {loading && (
           <Spin
             indicator={
@@ -130,9 +294,27 @@ const Game: React.FC = () => {
         {randomQuestion && !loading && (
           <Card
             className={`${showCard ? "fade-in" : "fade-out"} cartapregunta`}
-            bordered={false}
-            style={{ textAlign: "center" }}
+            variant="outlined"
+            style={{ textAlign: "center", position: "relative", zIndex: 10 }}
           >
+            {/* Botón X para cerrar la card */}
+            <Button
+              type="text"
+              shape="circle"
+              icon={<CloseOutlined />}
+              onClick={() => setShowCard(false)}
+              style={{
+                position: "absolute",
+                top: 10,
+                right: 10,
+                zIndex: 11,
+                color: gameConfig?.colorPrimary || "#333",
+                background: "transparent",
+                border: "none",
+                fontSize: 22,
+              }}
+              aria-label="Cerrar pregunta"
+            />
             <h1>{randomQuestion.question}</h1>
             {!showAnswer && (
               <Button
