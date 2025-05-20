@@ -107,7 +107,7 @@ const Game: React.FC = () => {
     setPlayerTokens(
       Array(num)
         .fill(0)
-        .map((_, i) => ({ x: 120 + i * 60, y: 420 }))
+        .map((_, i) => ({ x: 120 + i * 60, y: 220 }))
     );
     setSelectPlayersVisible(false);
   };
@@ -217,7 +217,18 @@ const Game: React.FC = () => {
               <Col key={num}>
                 <Button
                   type="primary"
-                  style={{ margin: 10, fontSize: 22 }}
+                  shape="circle"
+                  size="large"
+                  style={{
+                    margin: 10,
+                    fontSize: 22,
+                    width: 60,
+                    height: 60,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: gameConfig?.colorPrimary || "#2b2926",
+                  }}
                   onClick={() => handleSelectPlayers(num)}
                 >
                   {num}
@@ -235,8 +246,8 @@ const Game: React.FC = () => {
               position: "absolute",
               left: pos.x,
               top: pos.y,
-              width: 62,
-              height: 62,
+              width: window.innerWidth < 879 ? 50 : 82,
+              height: window.innerWidth < 879 ? 50 : 82,
               borderRadius: "50%",
               background: fichaColors[idx],
               border: "3px solid #fff",
