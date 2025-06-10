@@ -35,7 +35,7 @@ const App: React.FC = () => {
 
   // Estados para el dado
   const [showDice, setShowDice] = useState(false);
-  const [diceFaces] = useState(["1", "2", "3", "4", "5", "6"]);
+  const [diceFaces] = useState(["1", "2", "3", "4", "Hable", "Alto"]);
 
   // Colores para las fichas de los jugadores
   const PLAYER_COLORS = ["#e74c3c", "#3498db", "#f1c40f", "#27ae60"];
@@ -306,10 +306,10 @@ const App: React.FC = () => {
     const boardW = window.innerWidth;
     const boardH = window.innerHeight;
     const isMobile = boardW <= 768;
-    
+
     const safeMarginX = isMobile ? 100 : 150;
     const safeMarginY = isMobile ? 80 : 100;
-    
+
     return [
       { x: safeMarginX, y: safeMarginY },
       { x: boardW - safeMarginX, y: safeMarginY },
@@ -339,16 +339,18 @@ const App: React.FC = () => {
     const handleResize = () => {
       if (!isPlayerModalVisible && players.length > 0) {
         const positions = calculateSafePositions();
-        setPlayers(prev => prev.map((player, i) => ({
-          ...player,
-          x: positions[i]?.x || player.x,
-          y: positions[i]?.y || player.y,
-        })));
+        setPlayers((prev) =>
+          prev.map((player, i) => ({
+            ...player,
+            x: positions[i]?.x || player.x,
+            y: positions[i]?.y || player.y,
+          }))
+        );
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [isPlayerModalVisible, players.length]);
 
   return (
