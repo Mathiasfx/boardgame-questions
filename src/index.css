@@ -60,7 +60,7 @@ body {
   background-image: var(--background);
   background-size: contain;
   background-repeat: no-repeat;
-  background-color: #65bbd2; /* Fondo azul de respaldo */
+  background-color: #865E93; /* Fondo azul de respaldo */
   background-position: center;
   overflow: hidden; /* Prevenir overflow */
   max-width: none !important; /* Asegurar que el container ocupe todo el ancho disponible */

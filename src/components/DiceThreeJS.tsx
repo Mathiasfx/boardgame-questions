@@ -80,7 +80,7 @@ function DiceThreeJSInternal({
           style={{
             padding: "12px 24px",
             fontSize: "16px",
-            backgroundColor: isRolling ? "#666" : "#048FC9",
+            backgroundColor: isRolling ? "#666" : "#865E93",
             color: "white",
             border: "2px solid white",
             borderRadius: "8px",

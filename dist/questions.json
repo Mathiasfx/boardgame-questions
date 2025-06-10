@@ -1,79 +1,64 @@
 [
+  { "question": "¿Dónde nacieron tus abuelos paternos?", "answer": "" },
   {
-    "question": "¿En qué año ocurrió la Guerra de Malvinas?",
-    "answer": "1982"
+    "question": "¿Cuál es el apellido de soltera de tu abuela materna?",
+    "answer": ""
   },
   {
-    "question": "¿Qué país ocupó ilegalmente las islas desde 1833?",
-    "answer": "Reino Unido"
+    "question": "¿Hay alguna receta familiar que se cocina en cada reunión?",
+    "answer": ""
   },
   {
-    "question": "¿Qué día se conmemora el Día del Veterano y de los Caídos?",
-    "answer": "2 de abril"
+    "question": "¿Quién es la persona más graciosa de tu familia?",
+    "answer": ""
   },
   {
-    "question": "¿Qué presidente argentino ordenó el desembarco en las islas?",
-    "answer": "Leopoldo Galtieri"
+    "question": "¿Cuál fue el primer oficio o trabajo de tus padres o abuelos?",
+    "answer": ""
   },
   {
-    "question": "¿Quién fue el primer gobernador argentino en las Islas Malvinas?",
-    "answer": "Luis Vernet"
+    "question": "¿Alguien en tu familia vino de otro país? ¿Cuál?",
+    "answer": ""
+  },
+  { "question": "¿Cómo se llamaban tus bisabuelos?", "answer": "" },
+  {
+    "question": "¿Qué cosas te contaron sobre la infancia de tus padres?",
+    "answer": ""
   },
   {
-    "question": "¿Qué ciudad es la capital de las islas?",
-    "answer": "Puerto Argentino"
+    "question": "¿Hay una historia familiar que se repite siempre?",
+    "answer": ""
   },
   {
-    "question": "¿Qué avión argentino se hizo famoso por su valentía en la guerra?",
-    "answer": "Pucará"
+    "question": "¿Cuántos hermanos o hermanas tiene tu mamá o papá?",
+    "answer": ""
   },
   {
-    "question": "¿Qué lema reafirma la soberanía argentina sobre las islas?",
-    "answer": "Fueron, son y serán argentinas"
+    "question": "¿Hay alguien en tu familia que tenga el mismo nombre que vos?",
+    "answer": ""
+  },
+  { "question": "¿Quién cuida a quién en tu familia?", "answer": "" },
+  {
+    "question": "¿Qué es lo más lindo que aprendiste de tu familia?",
+    "answer": ""
+  },
+  { "question": "¿Quién es el mayor y el menor de tu familia?", "answer": "" },
+  {
+    "question": "¿Cuál era el lugar favorito de vacaciones de la familia?",
+    "answer": ""
   },
   {
-    "question": "¿Qué buques británicos fueron hundidos en la contienda?",
-    "answer": "Destructores: HMS Sheffield - HMS Coventry; Fragatas: HMS Ardent - HMS Antelope; Buques: RFA Sir Galahad - Atlantic Conveyor"
+    "question": "¿Tenés alguna foto familiar que te guste mucho? ¿Por qué?",
+    "answer": ""
   },
   {
-    "question": "¿Qué fuerza británica atacó el crucero ARA General Belgrano, fuera de la Zona de Conflicto, violando las leyes de Guerra y provocando la muerte de 323 Tripulantes?",
-    "answer": "Submarino británico"
+    "question": "¿Alguien de tu familia tocaba un instrumento o cantaba?",
+    "answer": ""
   },
+  { "question": "¿Cómo se conocieron tus abuelos o tus padres?", "answer": "" },
   {
-    "question": "¿Qué aviones fueron claves para dominar y enfrentar a la poderosa Flota Británica?",
-    "answer": "A-4 Skyhawk, Mirage III y Super Étendard"
+    "question": "¿Hay un objeto antiguo que se haya pasado de generación en generación?",
+    "answer": ""
   },
-  {
-    "question": "¿Qué significa “soberanía”?",
-    "answer": "Derecho de un país sobre su territorio"
-  },
-  {
-    "question": "¿Qué tipo de clima hay en las islas Malvinas?",
-    "answer": "Frío y ventoso"
-  },
-  {
-    "question": "¿Qué país apoyó con Aviones a la Argentina durante la guerra?",
-    "answer": "Perú"
-  },
-  {
-    "question": "¿Qué país sudamericano brindó apoyo logístico y aéreo al Reino Unido durante la guerra?",
-    "answer": "Chile"
-  },
-  { "question": "¿Cuántos días duró la guerra?", "answer": "74 días" },
-  {
-    "question": "¿Qué país ayudó militarmente al Reino Unido?",
-    "answer": "Estados Unidos"
-  },
-  {
-    "question": "¿Qué valor representa la causa Malvinas para el pueblo argentino?",
-    "answer": "Memoria, soberanía y dignidad"
-  },
-  {
-    "question": "¿Qué hecho hizo famoso al piloto argentino Capitán Arca en plena batalla?",
-    "answer": "Siguió volando su avión dañado hasta completar el bombardeo"
-  },
-  {
-    "question": "¿Qué acción heroica protagonizaron los soldados en Pradera del Ganso?",
-    "answer": "Resistieron combates cuerpo a cuerpo contra fuerzas de élite británicas"
-  }
+  { "question": "¿Qué valores te transmite tu familia?", "answer": "" }
 ]
