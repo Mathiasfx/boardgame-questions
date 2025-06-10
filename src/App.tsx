@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import "./App.css";
 import background from "./assets/background.jpg";
+import DiceThreeJS from "./components/DiceThreeJS";
 
 interface Question {
   question: string;
@@ -28,10 +29,13 @@ const App: React.FC = () => {
   const [showCard, setShowCard] = useState(false);
   const [isInitialModalVisible, setIsInitialModalVisible] =
     useState<boolean>(false); // Modal inicial
-  const [showAnswer, setShowAnswer] = useState<boolean>(false);
-  // Modal para seleccionar cantidad de jugadores
+  const [showAnswer, setShowAnswer] = useState<boolean>(false); // Modal para seleccionar cantidad de jugadores
   const [isPlayerModalVisible, setIsPlayerModalVisible] = useState(true);
   const [numPlayers, setNumPlayers] = useState<number>(2);
+
+  // Estados para el dado
+  const [showDice, setShowDice] = useState(false);
+  const [diceFaces] = useState(["1", "2", "3", "4", "5", "6"]);
 
   // Colores para las fichas de los jugadores
   const PLAYER_COLORS = ["#e74c3c", "#3498db", "#f1c40f", "#27ae60"];
@@ -47,12 +51,13 @@ const App: React.FC = () => {
 
   // Define las variables como un objeto 4bacd6
   const customIndicator = (
-    <LoadingOutlined spin style={{ fontSize: "48px", color: "#f5d93e" }} />
+    <LoadingOutlined spin style={{ fontSize: "48px", color: "#048FC9" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#008445",
+    "--button-bg-color": "#048FC9",
     "--button-color": "white",
-    "--button-border-color": "#008445",
+    "--button-border-color": "#f5f5f5",
+    "--button-border": "4px solid #f5f5f5",
     "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
   };
 
@@ -82,31 +87,6 @@ const App: React.FC = () => {
 
     loadQuestions();
   }, []);
-
-  // Inicializar jugadores cuando se selecciona la cantidad
-  useEffect(() => {
-    if (!isPlayerModalVisible) {
-      // Posiciones iniciales (esquinas)
-      const boardW = window.innerWidth;
-      const boardH = window.innerHeight;
-      const positions = [
-        { x: 60, y: 60 },
-        { x: boardW - 60, y: 60 },
-        { x: 60, y: boardH - 120 },
-        { x: boardW - 60, y: boardH - 120 },
-      ];
-      setPlayers(
-        Array.from({ length: numPlayers }).map((_, i) => ({
-          id: i,
-          color: PLAYER_COLORS[i],
-          x: positions[i].x,
-          y: positions[i].y,
-        }))
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlayerModalVisible, numPlayers]);
-
   //#region Trivia y Preguntas
   // obtener una pregunta aleatoria sin repetir
   const getRandomQuestion = () => {
@@ -206,15 +186,30 @@ const App: React.FC = () => {
     setIsConfigModalVisible(true);
   };
   //#endregion
-
   // Drag & drop handlers
   const handleMouseDown = (e: React.MouseEvent, playerId: number) => {
+    e.preventDefault();
     setDraggedPlayerId(playerId);
     const player = players.find((p) => p.id === playerId);
     if (player) {
       setDragOffset({
         x: e.clientX - player.x,
         y: e.clientY - player.y,
+      });
+    }
+    document.body.style.userSelect = "none";
+  };
+
+  // Touch handlers para móvil
+  const handleTouchStart = (e: React.TouchEvent, playerId: number) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    setDraggedPlayerId(playerId);
+    const player = players.find((p) => p.id === playerId);
+    if (player) {
+      setDragOffset({
+        x: touch.clientX - player.x,
+        y: touch.clientY - player.y,
       });
     }
     document.body.style.userSelect = "none";
@@ -248,22 +243,113 @@ const App: React.FC = () => {
     }
   };
 
+  const handleTouchMove = (e: TouchEvent) => {
+    if (draggedPlayerId !== null) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      setPlayers((prev) =>
+        prev.map((p) =>
+          p.id === draggedPlayerId
+            ? {
+                ...p,
+                x: Math.max(
+                  TOKEN_RADIUS,
+                  Math.min(
+                    window.innerWidth - TOKEN_RADIUS,
+                    touch.clientX - dragOffset.x
+                  )
+                ),
+                y: Math.max(
+                  TOKEN_RADIUS,
+                  Math.min(
+                    window.innerHeight - TOKEN_RADIUS,
+                    touch.clientY - dragOffset.y
+                  )
+                ),
+              }
+            : p
+        )
+      );
+    }
+  };
+
   const handleMouseUp = () => {
     setDraggedPlayerId(null);
     document.body.style.userSelect = "auto";
   };
 
+  const handleTouchEnd = () => {
+    setDraggedPlayerId(null);
+    document.body.style.userSelect = "auto";
+  };
   useEffect(() => {
     if (draggedPlayerId !== null) {
+      // Mouse events
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
+
+      // Touch events
+      window.addEventListener("touchmove", handleTouchMove, { passive: false });
+      window.addEventListener("touchend", handleTouchEnd);
+
       return () => {
         window.removeEventListener("mousemove", handleMouseMove);
         window.removeEventListener("mouseup", handleMouseUp);
+        window.removeEventListener("touchmove", handleTouchMove);
+        window.removeEventListener("touchend", handleTouchEnd);
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draggedPlayerId]);
+  // Función para recalcular posiciones seguras
+  const calculateSafePositions = () => {
+    const boardW = window.innerWidth;
+    const boardH = window.innerHeight;
+    const isMobile = boardW <= 768;
+    
+    const safeMarginX = isMobile ? 100 : 150;
+    const safeMarginY = isMobile ? 80 : 100;
+    
+    return [
+      { x: safeMarginX, y: safeMarginY },
+      { x: boardW - safeMarginX, y: safeMarginY },
+      { x: safeMarginX, y: boardH - safeMarginY },
+      { x: boardW - safeMarginX, y: boardH - safeMarginY },
+    ];
+  };
+
+  // Inicializar jugadores cuando se selecciona la cantidad
+  useEffect(() => {
+    if (!isPlayerModalVisible) {
+      const positions = calculateSafePositions();
+      setPlayers(
+        Array.from({ length: numPlayers }).map((_, i) => ({
+          id: i,
+          color: PLAYER_COLORS[i],
+          x: positions[i].x,
+          y: positions[i].y,
+        }))
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlayerModalVisible, numPlayers]);
+
+  // Reposicionar fichas al redimensionar la ventana
+  useEffect(() => {
+    const handleResize = () => {
+      if (!isPlayerModalVisible && players.length > 0) {
+        const positions = calculateSafePositions();
+        setPlayers(prev => prev.map((player, i) => ({
+          ...player,
+          x: positions[i]?.x || player.x,
+          y: positions[i]?.y || player.y,
+        })));
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isPlayerModalVisible, players.length]);
 
   return (
     <div
@@ -299,7 +385,6 @@ const App: React.FC = () => {
         </Button>
       </Modal>
       {randomQuestion === null && loading && <h2>No hay más preguntas</h2>}
-
       {/* Card para mostrar la pregunta */}
       {loading && randomQuestion !== null && (
         <div
@@ -315,7 +400,7 @@ const App: React.FC = () => {
             position: "fixed",
             left: 0,
             top: 0,
-            width: "100vw",
+            width: "100%",
             height: "100vh",
             zIndex: 100,
             display: "flex",
@@ -379,8 +464,7 @@ const App: React.FC = () => {
             )}
           </Card>
         </div>
-      )}
-
+      )}{" "}
       {/* Botón para obtener una pregunta */}
       <Button
         type="default"
@@ -389,16 +473,45 @@ const App: React.FC = () => {
         style={{ minHeight: "50px", ...buttonStyles }}
       >
         Obtener Pregunta
-      </Button>
-
+      </Button>{" "}
+      {/* Botón para abrir el dado */}
+      <Button
+        type="default"
+        onClick={() => setShowDice(true)}
+        className="dice-button"
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          width: "60px",
+          height: "60px",
+          borderRadius: "12px",
+          fontSize: "24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          ...buttonStyles,
+        }}
+        title={showDice ? "Cerrar dado" : "Activar dado"}
+      >
+        🎲
+      </Button>{" "}
       {/* Botón para abrir el modal de configuración */}
       <Button
         type="default"
         icon={<SettingOutlined />}
         onClick={() => setIsConfigModalVisible(true)}
-        style={{ position: "absolute", top: "20px", right: "20px" }}
+        className="settings-button"
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          width: "50px",
+          height: "50px",
+          borderRadius: "8px",
+        }}
+        title="Configurar preguntas"
       ></Button>
-
       {/* Modal para configuración de preguntas */}
       <Modal
         title="Configurar Preguntas"
@@ -471,7 +584,6 @@ const App: React.FC = () => {
           Restaurar Preguntas Predeterminadas
         </Button>
       </Modal>
-
       {/* Modal para editar preguntas */}
       <Modal
         title="Editar Pregunta"
@@ -492,7 +604,6 @@ const App: React.FC = () => {
           onChange={(e) => setNewAnswer(e.target.value)}
         />
       </Modal>
-
       {/* Modal para elegir cantidad de jugadores */}
       <Modal
         title="Selecciona la cantidad de jugadores"
@@ -502,7 +613,7 @@ const App: React.FC = () => {
         centered
       >
         <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
-          {[2, 3, 4].map((n) => (
+          {[2, 3].map((n) => (
             <Button
               key={n}
               type={numPlayers === n ? "primary" : "default"}
@@ -520,18 +631,24 @@ const App: React.FC = () => {
         </div>
         <Button
           type="primary"
-          style={{ marginTop: 24, width: "100%" }}
+          style={{
+            marginTop: 24,
+            width: "100%",
+            minHeight: "50px",
+            borderRadius: 8,
+          }}
           onClick={() => setIsPlayerModalVisible(false)}
         >
           Comenzar
         </Button>
-      </Modal>
-
+      </Modal>{" "}
       {/* Renderizar fichas de jugadores */}
       {players.map((player) => (
         <div
           key={player.id}
+          className="player-token"
           onMouseDown={(e) => handleMouseDown(e, player.id)}
+          onTouchStart={(e) => handleTouchStart(e, player.id)}
           style={{
             position: "absolute",
             left: player.x - TOKEN_RADIUS,
@@ -547,6 +664,7 @@ const App: React.FC = () => {
             display: isPlayerModalVisible ? "none" : "block",
             transition:
               draggedPlayerId === player.id ? "none" : "box-shadow 0.2s",
+            touchAction: "none", // Prevenir scroll en móvil durante drag
           }}
         >
           <span
@@ -561,10 +679,53 @@ const App: React.FC = () => {
               userSelect: "none",
             }}
           >
-            {player.id + 1}
+            {player.id + 1}{" "}
           </span>
         </div>
-      ))}
+      ))}{" "}
+      {/* Componente del dado */}
+      {showDice && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            backgroundColor: "transparent",
+            zIndex: 200,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            pointerEvents: "none",
+          }}
+        >
+          <Button
+            onClick={() => setShowDice(false)}
+            style={{
+              position: "absolute",
+              top: 20,
+              right: 20,
+              zIndex: 210,
+              fontSize: 18,
+              pointerEvents: "auto",
+              ...buttonStyles,
+            }}
+          >
+            ✕ Cerrar
+          </Button>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              pointerEvents: "auto",
+            }}
+          >
+            <DiceThreeJS showDice={showDice} diceFaces={diceFaces} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

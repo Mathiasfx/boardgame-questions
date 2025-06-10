@@ -1,78 +1,79 @@
 [
   {
-    "question": "Quién es el Presidente del Paraguay Electo desde el 2023 al 2028?",
-    "answer": "Santiago Peña"
+    "question": "¿En qué año ocurrió la Guerra de Malvinas?",
+    "answer": "1982"
   },
   {
-    "question": "¿Qué ríos forman parte de la Hidrovía Paraguay-Paraná?",
-    "answer": "Río Paraguay y Río Paraná"
+    "question": "¿Qué país ocupó ilegalmente las islas desde 1833?",
+    "answer": "Reino Unido"
   },
   {
-    "question": "¿Cuál es la moneda oficial de Paraguay?",
-    "answer": "Guaraní (PYG)"
+    "question": "¿Qué día se conmemora el Día del Veterano y de los Caídos?",
+    "answer": "2 de abril"
   },
   {
-    "question": "¿Cuántos habitantes tiene Paraguay aproximadamente en 2024?",
-    "answer": "Aproximadamente 7,5 millones"
+    "question": "¿Qué presidente argentino ordenó el desembarco en las islas?",
+    "answer": "Leopoldo Galtieri"
   },
   {
-    "question": "¿Cómo se llama la festividad religiosa más importante de Paraguay?",
-    "answer": "Fiesta de la Virgen de Caacupé"
+    "question": "¿Quién fue el primer gobernador argentino en las Islas Malvinas?",
+    "answer": "Luis Vernet"
   },
   {
-    "question": "¿Qué instrumento musical es símbolo de Paraguay?",
-    "answer": "Arpa paraguaya"
+    "question": "¿Qué ciudad es la capital de las islas?",
+    "answer": "Puerto Argentino"
   },
   {
-    "question": "¿Qué idioma, además del español, es oficial en Paraguay?",
-    "answer": "Guaraní"
+    "question": "¿Qué avión argentino se hizo famoso por su valentía en la guerra?",
+    "answer": "Pucará"
   },
   {
-    "question": "¿Cómo se llama el autor del Multipremiado Libro \"Chipas de Raíces Profundas, Páginas con Sabor”",
-    "answer": "¨Grillo¨ Benitez"
+    "question": "¿Qué lema reafirma la soberanía argentina sobre las islas?",
+    "answer": "Fueron, son y serán argentinas"
   },
   {
-    "question": "¿Cómo se llama la sopa sólida que se come en Paraguay?",
-    "answer": "Sopa paraguaya"
+    "question": "¿Qué buques británicos fueron hundidos en la contienda?",
+    "answer": "Destructores: HMS Sheffield - HMS Coventry; Fragatas: HMS Ardent - HMS Antelope; Buques: RFA Sir Galahad - Atlantic Conveyor"
   },
   {
-    "question": "¿Cuál es la bebida fría tradicional preparada con yerba mate y agua fría?",
-    "answer": "Tereré"
+    "question": "¿Qué fuerza británica atacó el crucero ARA General Belgrano, fuera de la Zona de Conflicto, violando las leyes de Guerra y provocando la muerte de 323 Tripulantes?",
+    "answer": "Submarino británico"
   },
   {
-    "question": "¿Cuál es el plato típico hecho con harina de maíz y queso?",
-    "answer": "Chipa"
+    "question": "¿Qué aviones fueron claves para dominar y enfrentar a la poderosa Flota Británica?",
+    "answer": "A-4 Skyhawk, Mirage III y Super Étendard"
   },
   {
-    "question": "¿Qué ciudad paraguaya es conocida como la \"Capital del Verano\"?",
-    "answer": "San Bernardino"
+    "question": "¿Qué significa “soberanía”?",
+    "answer": "Derecho de un país sobre su territorio"
   },
   {
-    "question": "¿Cómo se llama la mayor represa hidroeléctrica compartida entre Paraguay y Brasil?",
-    "answer": "Itaipú"
+    "question": "¿Qué tipo de clima hay en las islas Malvinas?",
+    "answer": "Frío y ventoso"
   },
   {
-    "question": "¿Cuál es la capital de Paraguay?",
-    "answer": "Asunción"
+    "question": "¿Qué país apoyó con Aviones a la Argentina durante la guerra?",
+    "answer": "Perú"
   },
   {
-    "question": "¿Qué guerra libró Paraguay contra Bolivia?",
-    "answer": "Guerra del Chaco"
+    "question": "¿Qué país sudamericano brindó apoyo logístico y aéreo al Reino Unido durante la guerra?",
+    "answer": "Chile"
+  },
+  { "question": "¿Cuántos días duró la guerra?", "answer": "74 días" },
+  {
+    "question": "¿Qué país ayudó militarmente al Reino Unido?",
+    "answer": "Estados Unidos"
   },
   {
-    "question": "¿En qué año se independizó Paraguay?",
-    "answer": "1811"
+    "question": "¿Qué valor representa la causa Malvinas para el pueblo argentino?",
+    "answer": "Memoria, soberanía y dignidad"
   },
   {
-    "question": "Cuál fue el primer presidente de Paraguay?",
-    "answer": "Carlos Antonio López"
+    "question": "¿Qué hecho hizo famoso al piloto argentino Capitán Arca en plena batalla?",
+    "answer": "Siguió volando su avión dañado hasta completar el bombardeo"
   },
   {
-    "question": "Cómo se llama la Principal organización que agrupa a las empresas y entidades dedicadas al desarrollo de software en Paraguay?",
-    "answer": "CISOFT - Cámara Paraguaya de la Industria del Software"
-  },
-  {
-    "question": "Cómo se llama la Empresa Paraguaya que Desarrolla y Comercializa Soluciones Tecno Educativas?",
-    "answer": "La Clase Digital"
+    "question": "¿Qué acción heroica protagonizaron los soldados en Pradera del Ganso?",
+    "answer": "Resistieron combates cuerpo a cuerpo contra fuerzas de élite británicas"
   }
 ]

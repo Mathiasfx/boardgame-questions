@@ -1,78 +1,79 @@
 [
   {
-    "question": "¿Qué institución protege tus depósitos en bancos oficiales?",
-    "answer": "BCRA"
+    "question": "¿En qué año ocurrió la Guerra de Malvinas?",
+    "answer": "1982"
   },
   {
-    "question": "¿Cuál es el riesgo de gastar más de lo que ganás?",
-    "answer": "Endeudamiento"
+    "question": "¿Qué país ocupó ilegalmente las islas desde 1833?",
+    "answer": "Reino Unido"
   },
   {
-    "question": "¿Qué herramienta ayuda a visualizar tus ingresos y gastos?",
-    "answer": "Presupuesto"
+    "question": "¿Qué día se conmemora el Día del Veterano y de los Caídos?",
+    "answer": "2 de abril"
   },
   {
-    "question": "¿Qué tipo de estafas prometen altos rendimientos con poco riesgo?",
-    "answer": "Criptoestafas"
+    "question": "¿Qué presidente argentino ordenó el desembarco en las islas?",
+    "answer": "Leopoldo Galtieri"
   },
   {
-    "question": "¿Qué es más valioso: ganar mucho dinero o saber administrarlo bien?",
-    "answer": "Saber administrarlo bien"
+    "question": "¿Quién fue el primer gobernador argentino en las Islas Malvinas?",
+    "answer": "Luis Vernet"
   },
   {
-    "question": "¿Qué es un activo digital que representa algo del mundo real, como una casa o una obra de arte?",
-    "answer": "Token"
+    "question": "¿Qué ciudad es la capital de las islas?",
+    "answer": "Puerto Argentino"
   },
   {
-    "question": "¿Qué significa invertir con impacto social?",
-    "answer": "Poner plata en algo que mejora el mundo"
+    "question": "¿Qué avión argentino se hizo famoso por su valentía en la guerra?",
+    "answer": "Pucará"
   },
   {
-    "question": "Si todo sube de precio, ¿cómo protegés tus ahorros?",
-    "answer": "Invirtiendo / No dejando la plata quieta"
+    "question": "¿Qué lema reafirma la soberanía argentina sobre las islas?",
+    "answer": "Fueron, son y serán argentinas"
   },
   {
-    "question": "¿Qué significa diversificar tus inversiones?",
-    "answer": "No poner toda la plata en lo mismo"
+    "question": "¿Qué buques británicos fueron hundidos en la contienda?",
+    "answer": "Destructores: HMS Sheffield - HMS Coventry; Fragatas: HMS Ardent - HMS Antelope; Buques: RFA Sir Galahad - Atlantic Conveyor"
   },
   {
-    "question": "¿Qué pregunta te tenés que hacer antes de comprar algo caro?",
-    "answer": "¿Lo necesito o solo lo deseo?"
+    "question": "¿Qué fuerza británica atacó el crucero ARA General Belgrano, fuera de la Zona de Conflicto, violando las leyes de Guerra y provocando la muerte de 323 Tripulantes?",
+    "answer": "Submarino británico"
   },
   {
-    "question": "¿Cómo se llama cuando gastás plata en cosas que no necesitás solo porque están en oferta?",
-    "answer": "Compra impulsiva"
+    "question": "¿Qué aviones fueron claves para dominar y enfrentar a la poderosa Flota Británica?",
+    "answer": "A-4 Skyhawk, Mirage III y Super Étendard"
   },
   {
-    "question": "¿Qué tipo de inversión es segura pero rinde poquito?",
-    "answer": "Plazo fijo"
+    "question": "¿Qué significa “soberanía”?",
+    "answer": "Derecho de un país sobre su territorio"
   },
   {
-    "question": "¿Qué sector económico produce alimentos y materias primas?",
-    "answer": "Agro"
+    "question": "¿Qué tipo de clima hay en las islas Malvinas?",
+    "answer": "Frío y ventoso"
   },
   {
-    "question": "¿Cómo se llama el sistema que permite invertir en empresas extranjeras desde Argentina?",
-    "answer": "CEDEAR"
+    "question": "¿Qué país apoyó con Aviones a la Argentina durante la guerra?",
+    "answer": "Perú"
   },
   {
-    "question": "Imagina que un amigo te dice que ha perdido mucho dinero apostando en línea. ¿Qué le dirías y qué harías?",
-    "answer": "Busquemos ayuda, tu bienestar es primero"
+    "question": "¿Qué país sudamericano brindó apoyo logístico y aéreo al Reino Unido durante la guerra?",
+    "answer": "Chile"
+  },
+  { "question": "¿Cuántos días duró la guerra?", "answer": "74 días" },
+  {
+    "question": "¿Qué país ayudó militarmente al Reino Unido?",
+    "answer": "Estados Unidos"
   },
   {
-    "question": "¿Qué señal podría indicar que alguien tiene un problema con el juego?",
-    "answer": "Se aísla, cambia su ánimo y hábitos."
+    "question": "¿Qué valor representa la causa Malvinas para el pueblo argentino?",
+    "answer": "Memoria, soberanía y dignidad"
   },
   {
-    "question": "¿Qué estrategias usarías para resistir la presión de grupo para participar en juegos de azar?",
-    "answer": "Decir que no y explicar por qué. Pensar en lo que es mejor para mí."
+    "question": "¿Qué hecho hizo famoso al piloto argentino Capitán Arca en plena batalla?",
+    "answer": "Siguió volando su avión dañado hasta completar el bombardeo"
   },
   {
-    "question": "¿Qué es una criptomoneda?",
-    "answer": "Dinero digital que no depende de un banco."
-  },
-  {
-    "question": "¿Qué puede significar que haya muchísima plata circulando en un país, pero pocos productos en los comercios?",
-    "answer": "Que los precios pueden subir mucho. Inflación."
+    "question": "¿Qué acción heroica protagonizaron los soldados en Pradera del Ganso?",
+    "answer": "Resistieron combates cuerpo a cuerpo contra fuerzas de élite británicas"
   }
 ]

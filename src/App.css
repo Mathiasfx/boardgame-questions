@@ -1,7 +1,8 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
@@ -87,18 +88,11 @@
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
 }
-.container {
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #008445;
-  min-height: 90vh;
-}
-
 
 @media (max-width: 768px) {
-  .container {
-    min-height: auto;
-    background-size: cover !important; /* Asegura que la imagen completa se vea */
+  .cartapregunta {
+    margin: 10px auto;
+    width: 95%;
+    max-width: 380px;
   }
 }
