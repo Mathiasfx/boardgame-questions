@@ -8,7 +8,6 @@ import {
   LoadingOutlined,
 } from "@ant-design/icons";
 import "./App.css";
-import background from "./assets/background.jpg";
 import DiceThreeJS from "./components/DiceThreeJS";
 
 interface Question {
@@ -359,7 +358,7 @@ const App: React.FC = () => {
       style={
         {
           padding: "20px",
-          backgroundImage: `url(${background})`,
+          // Quitamos la imagen de fondo aquí para evitar duplicación
         } as React.CSSProperties
       }
     >

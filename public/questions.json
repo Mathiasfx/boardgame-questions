@@ -1,79 +1,78 @@
 [
   {
-    "question": "¿En qué año ocurrió la Guerra de Malvinas?",
-    "answer": "1982"
+    "question": "¿En qué provincia está el Centro de Experimentación y Lanzamiento de Proyectiles Autopropulsados de Chamical?",
+    "answer": "La Rioja"
   },
   {
-    "question": "¿Qué país ocupó ilegalmente las islas desde 1833?",
-    "answer": "Reino Unido"
+    "question": "¿Cómo se llamó el mono que viajó en un cohete argentino en 1969?",
+    "answer": "Juan"
   },
   {
-    "question": "¿Qué día se conmemora el Día del Veterano y de los Caídos?",
-    "answer": "2 de abril"
+    "question": "¿Qué significa CONICET?",
+    "answer": "Consejo Nacional de Investigaciones Científicas y Técnicas"
   },
   {
-    "question": "¿Qué presidente argentino ordenó el desembarco en las islas?",
-    "answer": "Leopoldo Galtieri"
+    "question": "¿En qué ciudad está el Instituto Balseiro?",
+    "answer": "Bariloche"
   },
   {
-    "question": "¿Quién fue el primer gobernador argentino en las Islas Malvinas?",
-    "answer": "Luis Vernet"
+    "question": "¿Qué tipo de energía se estudia en el Centro Atómico Bariloche?",
+    "answer": "Energía nuclear"
   },
   {
-    "question": "¿Qué ciudad es la capital de las islas?",
-    "answer": "Puerto Argentino"
+    "question": "¿Cómo se llama el primer satélite argentino lanzado en 1990?",
+    "answer": "Lusat-1"
   },
   {
-    "question": "¿Qué avión argentino se hizo famoso por su valentía en la guerra?",
-    "answer": "Pucará"
+    "question": "¿Qué empresa construyó los satélites ARSAT?",
+    "answer": "2014"
   },
   {
-    "question": "¿Qué lema reafirma la soberanía argentina sobre las islas?",
-    "answer": "Fueron, son y serán argentinas"
+    "question": "¿Durante que Gobierno se desarticuló el Proyecto Misilístico Condor II, por pedido de EE.UU. preocupado por el avance Científico Argentino?",
+    "answer": "Carlos Menem"
   },
   {
-    "question": "¿Qué buques británicos fueron hundidos en la contienda?",
-    "answer": "Destructores: HMS Sheffield - HMS Coventry; Fragatas: HMS Ardent - HMS Antelope; Buques: RFA Sir Galahad - Atlantic Conveyor"
+    "question": "¿Qué país coopera con Argentina en la misión SABIA-Mar?",
+    "answer": "Brasil"
   },
   {
-    "question": "¿Qué fuerza británica atacó el crucero ARA General Belgrano, fuera de la Zona de Conflicto, violando las leyes de Guerra y provocando la muerte de 323 Tripulantes?",
-    "answer": "Submarino británico"
+    "question": "¿En qué provincia está la planta de fabricación de radares de INVAP?",
+    "answer": "Río Negro"
   },
   {
-    "question": "¿Qué aviones fueron claves para dominar y enfrentar a la poderosa Flota Británica?",
-    "answer": "A-4 Skyhawk, Mirage III y Super Étendard"
+    "question": "¿Qué reactores nucleares exportó Argentina a Egipto, Perú y Australia?",
+    "answer": "RA-6 y OPAL"
   },
   {
-    "question": "¿Qué significa “soberanía”?",
-    "answer": "Derecho de un país sobre su territorio"
+    "question": "¿Durante qué Gobiernos se desmanteló la Fabricación del Reactor CAREM-25 y la Fabricación de Agua Pesada, a pedido de EE.UU. ?",
+    "answer": "Los de Javier Milei y Mauricio Macri"
   },
   {
-    "question": "¿Qué tipo de clima hay en las islas Malvinas?",
-    "answer": "Frío y ventoso"
+    "question": "¿Donde se construyeron los aviones I.Ae. 24 Calquín, I.Ae. 27 Pulqui I, el I.Ae. 30 Ñamcú, IA 50 Guaraní II, el IA-58 Pucará, el IA-63 Pampa",
+    "answer": "En la Fábrica Militar de Aviones en Córdoba, Argentina. FADEA"
   },
   {
-    "question": "¿Qué país apoyó con Aviones a la Argentina durante la guerra?",
-    "answer": "Perú"
+    "question": "¿Qué satélite argentino fue diseñado para medir la salinidad de los océanos?",
+    "answer": "SAC-D / Aquarius"
   },
   {
-    "question": "¿Qué país sudamericano brindó apoyo logístico y aéreo al Reino Unido durante la guerra?",
-    "answer": "Chile"
-  },
-  { "question": "¿Cuántos días duró la guerra?", "answer": "74 días" },
-  {
-    "question": "¿Qué país ayudó militarmente al Reino Unido?",
-    "answer": "Estados Unidos"
+    "question": "¿En qué provincia está el lanzador de cohetes de Puerto Belgrano?",
+    "answer": "Buenos Aires"
   },
   {
-    "question": "¿Qué valor representa la causa Malvinas para el pueblo argentino?",
-    "answer": "Memoria, soberanía y dignidad"
+    "question": "¿Que Fundación apoya la formación de la Ingeniera Aeroespacial, Astronauta Candidata, Noel Castro, en la NASA?",
+    "answer": "Space Kids Foundation "
   },
   {
-    "question": "¿Qué hecho hizo famoso al piloto argentino Capitán Arca en plena batalla?",
-    "answer": "Siguió volando su avión dañado hasta completar el bombardeo"
+    "question": "¿Qué significa VEx en el proyecto Tronador?",
+    "answer": "Vehículo Experimental"
   },
   {
-    "question": "¿Qué acción heroica protagonizaron los soldados en Pradera del Ganso?",
-    "answer": "Resistieron combates cuerpo a cuerpo contra fuerzas de élite británicas"
+    "question": "¿Cuál fue el primer satélite de comunicaciones argentino?",
+    "answer": "ARSAT-1"
+  },
+  {
+    "question": "¿Cómo se llama el Proyecto que busca simular la vida en Marte, ubicado en La Rioja?",
+    "answer": "Solar 54"
   }
 ]

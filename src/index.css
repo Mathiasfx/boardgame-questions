@@ -33,6 +33,8 @@ html {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevenir scroll horizontal */
+  overflow-y: auto; /* Permitir scroll vertical */
+  min-height: 100vh;
 }
 
 body {
@@ -40,6 +42,16 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevenir scroll horizontal */
+  background-image: url('./assets/background.jpg');
+  background-size: contain; /* Muestra la imagen completa */
+  background-position: center center; /* Centra la imagen vertical y horizontalmente */
+  background-repeat: no-repeat;
+  background-color: #000; /* Color de fondo para áreas vacías */
+  background-attachment: fixed; /* Evita que la imagen se desplace al hacer scroll */
+  min-height: 100vh;
+  width: 100vw; /* Aseguramos que el body ocupe todo el ancho */
+  max-width: 100%; /* Evitamos que el cuerpo exceda el viewport */
+  overflow: hidden; /* Evitar que haya scroll para evitar repeticiones */
 }
 
 #root {
@@ -47,6 +59,8 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .container {
@@ -57,70 +71,19 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: var(--background);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: #65bbd2; /* Fondo azul de respaldo */
-  background-position: center;
   overflow: hidden; /* Prevenir overflow */
   max-width: none !important; /* Asegurar que el container ocupe todo el ancho disponible */
+  background-color: transparent; /* Aseguramos que el container no tenga fondo propio */
 }
 
-/* Imagen 1 
-.container::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  background-image: url(''); 
-  width: 150px;
-  height: 150px;
-  top: 10%;
-  left: 15%;
-  transform: rotate(15deg); 
-  background-size: cover;
-}
-*/
 
-/* Imagen 2 
-.container::after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  background-image: url('./assets/rcp1.png'); 
-  width: 200px;
-  height: 200px;
-  top: 80%;
-  left: 80%;
-  transform: rotate(-10deg); 
-  background-size: cover;
-}*/
+/* ...existing code... */
 
-/* Imagen 3 
-.container img:nth-child(1) {
-  position: absolute;
-  z-index: 2;
-  background-image: url('./assets/rcp1.png'); 
-  width: 170px;
-  height: 170px;
-  top: 15%;
-  left: 60%;
-  transform: rotate(25deg); 
-  background-size: cover;
-}*/
 
-/* Imagen 4 
-.container img:nth-child(2) {
-  position: absolute;
-  z-index: 2;
-  background-image: url('./assets/react.svg'); 
-  width: 180px;
-  height: 180px;
-  top: 70%;
-  left: 15%;
-  transform: rotate(-20deg);
-  background-size: cover;
-}
-*/
+/* ...existing code... */
+
+
+/* ...existing code... */
 
 
 
@@ -138,6 +101,8 @@ body {
   font-family: 'Arial', sans-serif;
   font-size: 16px; /* Tamaño base para PC */
   line-height: 1.5;
+  /* No duplicar estilos del body aquí */
+  /* Los estilos importantes del body están definidos arriba */
 }
 
 /* Estilos base para elementos */
@@ -175,6 +140,10 @@ button:focus-visible {
 @media (max-width: 768px) {
   body {
     font-size: 14px; /* Tamaño de fuente más pequeño para móviles */
+    background-size: contain; /* Aseguramos que la imagen se vea completa */
+    background-position: center center; /* Centramos la imagen */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   h1 {
@@ -205,7 +174,7 @@ button:focus-visible {
   .container {
     padding: 10px;
     min-height: 100vh;
-    background-size: cover; /* Mejora la visualización en móvil */
+    background-color: transparent; /* Aseguramos que no tenga fondo propio */
   }
 
   /* Cards responsive */
@@ -220,6 +189,10 @@ button:focus-visible {
 @media (max-width: 480px) {
   body {
     font-size: 12px;
+    background-size: contain; /* Aseguramos que la imagen se vea completa */
+    background-position: center center; /* Centramos la imagen */
+    background-repeat: no-repeat;
+    min-height: 100vh;
   }
 
   h1 {
@@ -309,9 +282,10 @@ button:focus-visible {
     right: 5px !important;
   }
 
-  .container {
-    background-size: cover;
+  body {
+    background-size: contain;
     min-height: 100vh;
+    background-position: center center;
   }
 }
 
@@ -322,6 +296,7 @@ div.container {
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  background-attachment: fixed;
 }
 
 /* Media query para pantallas grandes - asegurar ancho completo */
@@ -329,6 +304,19 @@ div.container {
   .container {
     max-width: none !important;
     width: 100% !important;
+  }
+  
+  body {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Media query para pantallas altas (relación de aspecto vertical) */
+@media (min-height: 1000px) {
+  body {
+    background-size: contain;
+    background-position: center center;
   }
 }
 
