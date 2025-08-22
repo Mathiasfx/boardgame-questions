@@ -42,11 +42,11 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevenir scroll horizontal */
-  background-image: url('./assets/background.jpg');
+  background-image: url('./assets/background.png');
   background-size: contain; /* Muestra la imagen completa */
   background-position: center center; /* Centra la imagen vertical y horizontalmente */
   background-repeat: no-repeat;
-  background-color: #000; /* Color de fondo para áreas vacías */
+  background-color: #ff6b35; /* Color naranja que combina con scratch */
   background-attachment: fixed; /* Evita que la imagen se desplace al hacer scroll */
   min-height: 100vh;
   width: 100vw; /* Aseguramos que el body ocupe todo el ancho */

@@ -26,10 +26,8 @@ const App: React.FC = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [showCard, setShowCard] = useState(false);
-  const [isInitialModalVisible, setIsInitialModalVisible] =
-    useState<boolean>(false); // Modal inicial
-  const [showAnswer, setShowAnswer] = useState<boolean>(false); // Modal para seleccionar cantidad de jugadores
-  const [isPlayerModalVisible, setIsPlayerModalVisible] = useState(true);
+  const [showAnswer, setShowAnswer] = useState<boolean>(false); // Para mostrar respuesta de pregunta
+  const [isPlayerModalVisible, setIsPlayerModalVisible] = useState(true); // Modal para seleccionar cantidad de jugadores - inicia abierto
   const [numPlayers, setNumPlayers] = useState<number>(2);
 
   // Estados para el dado
@@ -70,17 +68,23 @@ const App: React.FC = () => {
   // cargar preguntas desde el servidor
   useEffect(() => {
     const loadQuestions = async () => {
-      const response = await fetch("/questions.json");
-      const data: Question[] = await response.json();
-      const savedQuestions = JSON.parse(
-        localStorage.getItem("questions") || "null"
-      ) as Question[];
+      try {
+        const response = await fetch("/questions.json");
+        const data: Question[] = await response.json();
+        const savedQuestions = JSON.parse(
+          localStorage.getItem("questions") || "null"
+        ) as Question[];
 
-      if (savedQuestions) {
-        setQuestions(savedQuestions);
-      } else {
-        setQuestions(data);
-        localStorage.setItem("questions", JSON.stringify(data));
+        if (savedQuestions) {
+          setQuestions(savedQuestions);
+        } else {
+          setQuestions(data);
+          localStorage.setItem("questions", JSON.stringify(data));
+        }
+      } catch (error) {
+        console.error("Error loading questions:", error);
+        // Si hay error, usar array vacío
+        setQuestions([]);
       }
     };
 
@@ -171,19 +175,6 @@ const App: React.FC = () => {
     localStorage.setItem("questions", JSON.stringify(data));
   };
 
-  // Opción para usar preguntas precargadas
-  const usePreloadedQuestions = () => {
-    resetQuestions();
-    setIsInitialModalVisible(false); // Cierra el modal inicial
-  };
-
-  // Opción para empezar desde preguntas vacías
-  const createNewQuestions = () => {
-    setQuestions([]); // Limpia las preguntas
-    localStorage.setItem("questions", JSON.stringify([])); // Actualiza el localStorage
-    setIsInitialModalVisible(false); // Cierra el modal inicial
-    setIsConfigModalVisible(true);
-  };
   //#endregion
   // Drag & drop handlers
   const handleMouseDown = (e: React.MouseEvent, playerId: number) => {
@@ -362,29 +353,6 @@ const App: React.FC = () => {
         } as React.CSSProperties
       }
     >
-      {/* Modal inicial para seleccionar la opción */}
-      <Modal
-        className="modalpregunta"
-        title="Selecciona una opción"
-        open={isInitialModalVisible}
-        footer={null}
-        closable={false} // No permite cerrar el modal sin seleccionar una opción
-      >
-        <Button
-          type="primary"
-          onClick={usePreloadedQuestions}
-          style={{ width: "100%", marginBottom: "10px", minHeight: "50px" }}
-        >
-          Preguntas RCP
-        </Button>
-        <Button
-          type="default"
-          onClick={createNewQuestions}
-          style={{ width: "100%", minHeight: "50px" }}
-        >
-          Crear Mis Propias Preguntas
-        </Button>
-      </Modal>
       {randomQuestion === null && loading && <h2>No hay más preguntas</h2>}
       {/* Card para mostrar la pregunta */}
       {loading && randomQuestion !== null && (
