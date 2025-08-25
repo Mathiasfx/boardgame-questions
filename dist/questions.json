@@ -1,29 +1,82 @@
 [
   {
-    "question": "¿Qué bloques usarías en Scratch para que un personaje se mueva hacia la derecha cuando presionas la tecla de flecha derecha?"
+    "question": "¿Qué es el autoconocimiento?",
+    "answer": "Conocer cómo sos, qué sentís y qué te gusta."
   },
   {
-    "question": "Si estás construyendo un robot con Rasti, ¿qué piezas necesitas para que el robot pueda girar las ruedas?"
+    "question": "¿Para qué sirve la autoestima?",
+    "answer": "Para confiar en uno mismo."
   },
   {
-    "question": "¿Qué componente del kit de robótica de Probots permite que un robot detecte obstáculos?"
+    "question": "¿Qué hacés cuando algo te frustra?",
+    "answer": "Respiro, pienso y busco otra forma."
   },
   {
-    "question": "¿Qué hace especial al robot SIMA en comparación con otros robots?"
+    "question": "¿Qué es la empatía?",
+    "answer": "Ponerse en el lugar del otro."
   },
   {
-    "question": " Según la Isla de los Abrazadores, ¿qué puedes hacer cuando te sientes triste para sentirte mejor?"
+    "question": "¿Cómo te das cuenta de que estás triste?",
+    "answer": "Porque me dan ganas de llorar o aislarme."
   },
   {
-    "question": "¿En qué miedo descubriste que eres valiente?"
+    "question": "¿Qué podés hacer si ves que molestan a un compañero?",
+    "answer": "Defenderlo o avisar a un adulto."
   },
   {
-    "question": "¿Qué has aprendido de alguna ira, rabia o molestia?"
+    "question": "¿Qué es autorregular tus emociones?",
+    "answer": "Controlar lo que sentís y cómo lo expresás."
   },
   {
-    "question": "¿Coleccionas tristezas?"
+    "question": "¿Qué es una emoción?",
+    "answer": "Lo que sentimos por dentro."
   },
   {
-    "question": "¿Recibes en la misma cantidad que das?"
+    "question": "¿Por qué es importante hablar de lo que sentimos?",
+    "answer": "Porque ayuda a entendernos mejor."
+  },
+  {
+    "question": "¿Qué hacés si alguien te excluye de un juego?",
+    "answer": "Lo hablo con calma y respeto."
+  },
+  {
+    "question": "¿Qué significa colaborar?",
+    "answer": "Trabajar juntos para lograr algo."
+  },
+  {
+    "question": "¿Qué es la creatividad?",
+    "answer": "Inventar cosas nuevas o pensar diferente."
+  },
+  {
+    "question": "¿Cómo se resuelve un conflicto sin pelear?",
+    "answer": "Dialogando y escuchando al otro."
+  },
+  {
+    "question": "¿Qué es la comunicación asertiva?",
+    "answer": "Decir lo que pienso sin lastimar."
+  },
+  {
+    "question": "¿Qué hacés si alguien te hace bullying?",
+    "answer": "Pido ayuda y no me quedo callado."
+  },
+  {
+    "question": "¿Qué puede pasar si compartís todo en redes sociales?",
+    "answer": "Pueden usarlo mal o hacerte daño."
+  },
+  {
+    "question": "¿Qué te hace sentir seguro?",
+    "answer": "Estar con gente que me respeta."
+  },
+  {
+    "question": "¿Qué significa ser auténtico?",
+    "answer": "Ser uno mismo, sin copiar a nadie."
+  },
+  {
+    "question": "¿Qué es la imaginación?",
+    "answer": "Crear cosas en tu mente."
+  },
+  {
+    "question": "¿Qué hacés cuando te sentís nervioso?",
+    "answer": "Respiro hondo o me distraigo con algo lindo."
   }
 ]
