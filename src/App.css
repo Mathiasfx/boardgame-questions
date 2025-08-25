@@ -1,8 +1,10 @@
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 
@@ -90,7 +92,7 @@
   background-size: 67%;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #4bacd6;
+  background-color: #0047ab; /* Azul Cobalto - más eléctrico */
   min-height: 100vh;
 }
 
