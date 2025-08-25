@@ -53,8 +53,8 @@ const App: React.FC = () => {
     <LoadingOutlined spin style={{ fontSize: "48px", color: "#0047ab" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#FFD700", // Amarillo dorado para el botón
-    "--button-color": "black",      // Texto negro para mejor contraste con amarillo
+    "--button-bg-color": "#4bacd6", // Amarillo dorado para el botón
+    "--button-color": "#f5f5f5", // Texto negro para mejor contraste con amarillo
     "--button-border-color": "#f5f5f5",
     "--button-border": "4px solid #f5f5f5",
     "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
@@ -362,7 +362,7 @@ const App: React.FC = () => {
         width: "100%",
         height: "100vh",
         overflow: "hidden",
-        zIndex: 2
+        zIndex: 2,
       }}
     >
       {/* Modal inicial para seleccionar la opción */}
@@ -389,7 +389,6 @@ const App: React.FC = () => {
         </Button>
       </Modal>
       {randomQuestion === null && loading && <h2>No hay más preguntas</h2>}
-
       {/* Card para mostrar la pregunta */}
       {loading && randomQuestion !== null && (
         <div
@@ -459,7 +458,7 @@ const App: React.FC = () => {
               <p
                 style={{
                   marginTop: "10px",
-                  color: "#2434a5",
+                  color: "#4bacd9",
                   fontSize: "1.6rem",
                   fontWeight: "semibold",
                 }}
@@ -471,25 +470,27 @@ const App: React.FC = () => {
         </div>
       )}{" "}
       {/* Botón para obtener una pregunta - ajustado para centrado absoluto */}
-      <div style={{ 
-        width: "100%", 
-        display: "flex", 
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: "20px",
-        position: "relative",
-        zIndex: 50
-      }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "20px",
+          position: "relative",
+          zIndex: 50,
+        }}
+      >
         <Button
           type="default"
           className="custom-button"
           onClick={getRandomQuestion}
-          style={{ 
-            minHeight: "50px", 
+          style={{
+            minHeight: "50px",
             width: "220px",
             fontSize: "16px",
             fontWeight: "bold",
-            ...buttonStyles 
+            ...buttonStyles,
           }}
         >
           OBTENER PREGUNTA
@@ -517,7 +518,6 @@ const App: React.FC = () => {
       >
         🎲
       </Button>{" "}
-
       {/* Botón para abrir el modal de configuración */}
       <Button
         type="default"
@@ -534,7 +534,6 @@ const App: React.FC = () => {
         }}
         title="Configurar preguntas"
       ></Button>
-
       {/* Modal para configuración de preguntas */}
       <Modal
         title="Configurar Preguntas"
@@ -607,7 +606,6 @@ const App: React.FC = () => {
           Restaurar Preguntas Predeterminadas
         </Button>
       </Modal>
-
       {/* Modal para editar preguntas */}
       <Modal
         title="Editar Pregunta"

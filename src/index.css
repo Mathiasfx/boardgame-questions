@@ -54,7 +54,7 @@ body {
   background-size: cover; /* Cambiado a cover para mejor visualización */
   background-position: center center; /* Centra la imagen vertical y horizontalmente */
   background-repeat: no-repeat;
-  background-color: #0047ab; /* Azul Cobalto - más eléctrico */
+  background-color: #4bacd6; /* Azul Cobalto - más eléctrico */
   background-attachment: fixed; /* Evita que la imagen se desplace al hacer scroll */
   min-height: 100vh;
   /* Asegúrate de que el fondo tenga prioridad pero no interfiera con los elementos */
