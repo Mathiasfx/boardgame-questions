@@ -48,13 +48,12 @@ const App: React.FC = () => {
 
   // Define las variables como un objeto
   const customIndicator = (
-    <LoadingOutlined spin style={{ fontSize: "48px", color: "#0047ab" }} />
+    <LoadingOutlined spin style={{ fontSize: "48px", color: "#ff2d66" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#FFD700", // Amarillo dorado para el botón
-    "--button-color": "black", // Texto negro para mejor contraste con amarillo
-    "--button-border-color": "#f5f5f5",
-    "--button-border": "4px solid #f5f5f5",
+    "--button-bg-color": "#584ea7", // Amarillo dorado para el botón
+    "--button-color": "#f5f5f5", // Texto negro para mejor contraste con amarillo
+
     "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
   };
 
