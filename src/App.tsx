@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./providers/AuthContext";
 import "./index.css";
 import Game from "./pages/game/Game";
+import TriviaGame from "./pages/game/TriviaGame";
 
 function App() {
   const { currentUser } = useAuth();
@@ -19,7 +20,10 @@ function App() {
     <Router>
       <Layout style={{ minHeight: "100vh", width: "100%" }}>
         <Routes>
+          {/* Rutas de juego */}
           <Route path="/game/:slug" element={<Game />} />
+          <Route path="/trivia/:slug" element={<TriviaGame />} />
+
           {/* Si el usuario ya está autenticado, redirigir de login/register a Dashboard */}
           <Route
             path="/login"
