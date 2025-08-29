@@ -11,6 +11,7 @@ import {
   Upload,
   ColorPicker,
   Tooltip,
+  Radio,
 } from "antd";
 
 import {
@@ -44,8 +45,13 @@ const MyGames: React.FC = () => {
   const [colorPrimary, setColorPrimary] = useState("");
   const [colorSecondary, setColorSecondary] = useState("");
   const [background, setBackground] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("#f0f0f0");
+  const [gameType, setGameType] = useState<"boardgame" | "trivia">("boardgame");
   const [questions, setQuestions] = useState<
     { question: string; answer: string }[]
+  >([]);
+  const [triviaQuestions, setTriviaQuestions] = useState<
+    { question: string; options: string[]; correctOptionIndex: number }[]
   >([]);
   const [editTriviaId, setEditTriviaId] = useState<string | null>(null);
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
@@ -125,20 +131,45 @@ const MyGames: React.FC = () => {
       });
       return;
     }
-    if (!backgroundFile && !background) {
+    // Solo requiere imagen de fondo para juegos de tipo boardgame
+    if (gameType === "boardgame" && !backgroundFile && !background) {
       notification.error({ message: "Debes subir una imagen de fondo." });
       return;
     }
-    if (questions.length === 0) {
-      notification.error({ message: "Debes agregar al menos una pregunta." });
-      return;
+
+    // Validaciones específicas según el tipo de juego
+    if (gameType === "boardgame") {
+      if (questions.length === 0) {
+        notification.error({ message: "Debes agregar al menos una pregunta." });
+        return;
+      }
+      if (questions.some((q) => !q.question.trim() || !q.answer.trim())) {
+        notification.error({
+          message: "Todas las preguntas y respuestas deben estar completas.",
+        });
+        return;
+      }
+    } else if (gameType === "trivia") {
+      if (triviaQuestions.length === 0) {
+        notification.error({ message: "Debes agregar al menos una pregunta." });
+        return;
+      }
+      if (
+        triviaQuestions.some(
+          (q) =>
+            !q.question.trim() ||
+            q.options.some((opt) => !opt.trim()) ||
+            q.correctOptionIndex < 0
+        )
+      ) {
+        notification.error({
+          message:
+            "Todas las preguntas, opciones y respuestas correctas deben estar completas.",
+        });
+        return;
+      }
     }
-    if (questions.some((q) => !q.question.trim() || !q.answer.trim())) {
-      notification.error({
-        message: "Todas las preguntas y respuestas deben estar completas.",
-      });
-      return;
-    }
+
     setLoading(true);
 
     try {
@@ -153,30 +184,56 @@ const MyGames: React.FC = () => {
           slug,
           backgroundFile
         );
+      } else if (gameType === "trivia" && !background && !backgroundFile) {
+        // Para trivias, permitir fondo nulo
+        imageUrl = "";
       }
 
       if (editTriviaId) {
-        await updateBoard(currentUser!.uid, editTriviaId, {
-          title,
-          colorPrimary,
-          colorSecondary,
-          background: imageUrl,
-          questions,
-          diceFaces,
-        });
+        if (gameType === "boardgame") {
+          await updateBoard(currentUser!.uid, editTriviaId, {
+            title,
+            colorPrimary,
+            colorSecondary,
+            background: imageUrl,
+            gameType,
+            questions,
+            diceFaces,
+          });
+        } else {
+          await updateBoard(currentUser!.uid, editTriviaId, {
+            title,
+            colorPrimary,
+            colorSecondary,
+            background: imageUrl,
+            backgroundColor,
+            gameType,
+            triviaQuestions,
+          });
+        }
         notification.success({ message: "Board actualizado" });
       } else {
-        const board: Board = {
+        const board: any = {
           userId: currentUser!.uid,
           title,
           colorPrimary,
           colorSecondary,
           background: imageUrl,
-          questions,
-          diceFaces,
+          gameType,
         };
+
+        if (gameType === "boardgame") {
+          board.questions = questions;
+          board.diceFaces = diceFaces;
+        } else {
+          board.triviaQuestions = triviaQuestions;
+          board.backgroundColor = backgroundColor;
+        }
+
         await createBoard(board);
-        notification.success({ message: "Board Creado" });
+        notification.success({
+          message: `${gameType === "boardgame" ? "Board" : "Trivia"} Creado`,
+        });
       }
       fetchBoards();
       closeModal();
@@ -216,14 +273,27 @@ const MyGames: React.FC = () => {
     setColorPrimary(trivia.colorPrimary || "");
     setColorSecondary(trivia.colorSecondary || "");
     setBackground(trivia.background || "");
-    setQuestions(trivia.questions || []);
+    setBackgroundColor(trivia.backgroundColor || "#f0f0f0");
+    setGameType(trivia.gameType || "boardgame");
+
+    if (trivia.gameType === "trivia") {
+      setTriviaQuestions(trivia.triviaQuestions || []);
+      setQuestions([]);
+    } else {
+      setQuestions(trivia.questions || []);
+      setTriviaQuestions([]);
+    }
+
     setIsModalOpen(true);
   };
   //#endregion
 
   //#region Copiar el link del board
-  const handleCopyLink = (slug: string) => {
-    const url = `${window.location.origin}/game/${slug}`;
+  const handleCopyLink = (trivia: any) => {
+    const gameType = trivia.gameType || "boardgame";
+    const url = `${window.location.origin}/${
+      gameType === "boardgame" ? "game" : "trivia"
+    }/${trivia.slug}`;
     navigator.clipboard.writeText(url);
     notification.success({ message: "Enlace copiado al portapapeles" });
   };
@@ -237,8 +307,11 @@ const MyGames: React.FC = () => {
     setColorPrimary("");
     setColorSecondary("");
     setBackground("");
+    setBackgroundColor("#f0f0f0");
     setBackgroundFile(null);
     setQuestions([]);
+    setTriviaQuestions([]);
+    setGameType("boardgame");
   };
   //#endregion
 
@@ -261,7 +334,19 @@ const MyGames: React.FC = () => {
 
   //#region Descargar tarjetas en PDF
   const downloadCardsPDF = (board: Board) => {
-    const { questions } = board;
+    if (board.gameType === "trivia" && board.triviaQuestions) {
+      // Exportar tarjetas de trivia
+      downloadTriviaPDF(board);
+    } else if (board.questions) {
+      // Exportar tarjetas de juego de mesa
+      downloadBoardGamePDF(board);
+    } else {
+      notification.error({ message: "No hay preguntas para exportar" });
+    }
+  };
+
+  const downloadBoardGamePDF = (board: Board) => {
+    const questions = board.questions || [];
     // Parámetros de la página
     const doc = new jsPDF({
       orientation: "portrait",
@@ -394,6 +479,97 @@ const MyGames: React.FC = () => {
     doc.save(`${board.title}_tarjetas.pdf`);
   };
 
+  const downloadTriviaPDF = (board: Board) => {
+    const triviaQuestions = board.triviaQuestions || [];
+    // Parámetros de la página
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
+    // Color primario para los títulos y bordes
+    const [r, g, b] = board.colorPrimary
+      ? hexToRgb(board.colorPrimary)
+      : [83, 91, 242];
+
+    // Título del documento
+    doc.setFillColor(r, g, b);
+    doc.rect(0, 0, 210, 20, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor(255, 255, 255);
+    doc.text(`${board.title} - Preguntas de Trivia`, 105, 12, {
+      align: "center",
+    });
+
+    let yPos = 30;
+    const pageHeight = 297;
+    const margin = 15;
+    const questionSpacing = 10;
+
+    // Imprimir cada pregunta con sus opciones
+    triviaQuestions.forEach((question, index) => {
+      // Verificar si necesitamos una nueva página
+      if (yPos > pageHeight - margin) {
+        doc.addPage();
+        yPos = margin;
+      }
+
+      // Número y texto de la pregunta
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.setTextColor(r, g, b);
+      doc.text(`Pregunta ${index + 1}:`, margin, yPos);
+      yPos += 6;
+
+      // Texto de la pregunta
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(0, 0, 0);
+      const questionLines = doc.splitTextToSize(
+        question.question,
+        210 - 2 * margin
+      );
+      doc.text(questionLines, margin, yPos);
+      yPos += questionLines.length * 6 + 5;
+
+      // Opciones
+      question.options.forEach((option, optIndex) => {
+        const isCorrect = optIndex === question.correctOptionIndex;
+
+        // Círculo para la opción
+        if (isCorrect) {
+          doc.setDrawColor(0, 150, 0);
+          doc.setFillColor(200, 255, 200);
+        } else {
+          doc.setDrawColor(100, 100, 100);
+          doc.setFillColor(240, 240, 240);
+        }
+
+        doc.circle(margin + 3, yPos - 2, 3, "FD");
+
+        // Texto de la opción
+        doc.setFont("helvetica", isCorrect ? "bold" : "normal");
+        doc.setTextColor(0, 0, 0);
+        const optionLines = doc.splitTextToSize(option, 210 - 2 * margin - 10);
+        doc.text(optionLines, margin + 8, yPos);
+        yPos += optionLines.length * 6 + 3;
+      });
+
+      // Separador entre preguntas
+      yPos += questionSpacing;
+      doc.setDrawColor(200, 200, 200);
+      doc.line(
+        margin,
+        yPos - questionSpacing / 2,
+        210 - margin,
+        yPos - questionSpacing / 2
+      );
+    });
+
+    // Finalmente, descargar
+    doc.save(`${board.title}_trivia.pdf`);
+  };
   //#endregion
   return (
     <div>
@@ -423,12 +599,29 @@ const MyGames: React.FC = () => {
       >
         <Table.Column title="Título" dataIndex="title" key="title" />
         <Table.Column
+          title="Tipo"
+          dataIndex="gameType"
+          key="gameType"
+          render={(gameType) => (
+            <span>{gameType === "trivia" ? "Trivia" : "Juego de Mesa"}</span>
+          )}
+        />
+        <Table.Column
           title="Acciones"
           key="actions"
           render={(_, trivia) => (
             <Space>
-              <Tooltip title="Ver Juego online" placement="top">
-                <Link to={`/game/${trivia.slug}`}>
+              <Tooltip
+                title={`Ver ${
+                  trivia.gameType === "trivia" ? "Trivia" : "Juego"
+                } online`}
+                placement="top"
+              >
+                <Link
+                  to={`/${trivia.gameType === "trivia" ? "trivia" : "game"}/${
+                    trivia.slug
+                  }`}
+                >
                   <Button icon={<GlobalOutlined />} />
                 </Link>
               </Tooltip>
@@ -436,7 +629,7 @@ const MyGames: React.FC = () => {
               <Tooltip placement="top" title="Copiar enlace">
                 <Button
                   icon={<LinkOutlined />}
-                  onClick={() => handleCopyLink(trivia.slug)}
+                  onClick={() => handleCopyLink(trivia)}
                 />
               </Tooltip>
 
@@ -446,13 +639,13 @@ const MyGames: React.FC = () => {
                   onClick={() => downloadCardsPDF(trivia as Board)}
                 />
               </Tooltip>
-              <Tooltip title="Editar Trivia" placement="top">
+              <Tooltip title="Editar Juego" placement="top">
                 <Button
                   icon={<EditOutlined />}
                   onClick={() => handleEditTrivia(trivia)}
                 />
               </Tooltip>
-              <Tooltip title="Eliminar Trivia" placement="top">
+              <Tooltip title="Eliminar Juego" placement="top">
                 <Button
                   icon={<DeleteOutlined />}
                   danger
@@ -465,15 +658,16 @@ const MyGames: React.FC = () => {
       </Table>
 
       <Modal
-        title={editTriviaId ? "Editar Trivia" : "Nueva Trivia"}
+        title={editTriviaId ? "Editar Juego" : "Nuevo Juego"}
         open={isModalOpen}
         onCancel={closeModal}
         onOk={handleCreateOrUpdateTrivia}
-        okText={editTriviaId ? "Guardar cambios" : "Crear Trivia"}
+        okText={editTriviaId ? "Guardar cambios" : "Crear Juego"}
         confirmLoading={loading}
+        width={700}
       >
         <Input
-          placeholder="Título de la Trivia"
+          placeholder="Título del Juego"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           style={{
@@ -481,6 +675,27 @@ const MyGames: React.FC = () => {
             borderColor: !title.trim() ? "red" : undefined,
           }}
         />
+
+        {/* Selector de tipo de juego */}
+        <div style={{ marginBottom: 15 }}>
+          <h4>Tipo de Juego</h4>
+          <Radio.Group
+            value={gameType}
+            onChange={(e) => {
+              setGameType(e.target.value);
+              // Limpiar las preguntas del otro tipo
+              if (e.target.value === "boardgame") {
+                setTriviaQuestions([]);
+              } else {
+                setQuestions([]);
+              }
+            }}
+          >
+            <Radio.Button value="boardgame">Juego de Mesa</Radio.Button>
+            <Radio.Button value="trivia">Trivia</Radio.Button>
+          </Radio.Group>
+        </div>
+
         <div
           style={{
             display: "flex",
@@ -501,28 +716,33 @@ const MyGames: React.FC = () => {
             onChange={(color) => setColorSecondary(color.toHexString())}
           />
         </div>
-        <h4>Caras del Dado</h4>
-        {diceFaces.map((face, index) => (
-          <div key={index} style={{ marginBottom: 10 }}>
-            <Input
-              placeholder={`Cara ${index + 1}`}
-              value={face}
-              onChange={(e) => {
-                const updatedFaces = [...diceFaces];
-                updatedFaces[index] = e.target.value;
-                setDiceFaces(updatedFaces);
-              }}
-            />
-          </div>
-        ))}
 
-        <Button
-          onClick={
-            () => setDiceFaces(["1", "2", "3", "4", "Play", "Stop"]) // Restablecer a valores por defecto
-          }
-        >
-          Restablecer Caras por Defecto
-        </Button>
+        {gameType === "boardgame" && (
+          <>
+            <h4>Caras del Dado</h4>
+            {diceFaces.map((face, index) => (
+              <div key={index} style={{ marginBottom: 10 }}>
+                <Input
+                  placeholder={`Cara ${index + 1}`}
+                  value={face}
+                  onChange={(e) => {
+                    const updatedFaces = [...diceFaces];
+                    updatedFaces[index] = e.target.value;
+                    setDiceFaces(updatedFaces);
+                  }}
+                />
+              </div>
+            ))}
+
+            <Button
+              onClick={
+                () => setDiceFaces(["1", "2", "3", "4", "Play", "Stop"]) // Restablecer a valores por defecto
+              }
+            >
+              Restablecer Caras por Defecto
+            </Button>
+          </>
+        )}
 
         <Upload
           beforeUpload={() => false} // Evita la carga automática
@@ -534,59 +754,269 @@ const MyGames: React.FC = () => {
         >
           <Button icon={<UploadOutlined />}>Subir Imagen de Fondo</Button>
         </Upload>
-        {!background && !backgroundFile && (
+        {gameType === "boardgame" && !background && !backgroundFile ? (
           <p style={{ color: "red", fontSize: "12px" }}>
             ⚠ Debes subir una imagen
           </p>
-        )}
+        ) : gameType === "trivia" && !background && !backgroundFile ? (
+          <div>
+            <p style={{ color: "blue", fontSize: "12px", marginBottom: "5px" }}>
+              ℹ️ La imagen de fondo es opcional para trivias
+            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "10px",
+              }}
+            >
+              <label style={{ marginRight: "10px" }}>Color de fondo:</label>
+              <ColorPicker
+                value={backgroundColor}
+                onChange={(color) => setBackgroundColor(color.toHexString())}
+              />
+              <div
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  background: backgroundColor,
+                  border: "1px solid #d9d9d9",
+                  marginLeft: "10px",
+                  borderRadius: "2px",
+                }}
+              />
+            </div>
+          </div>
+        ) : null}
 
         {/* Vista previa de la imagen si existe */}
         {background && (
-          <img
-            src={background}
-            alt="Fondo"
-            style={{
-              width: "100%",
-              height: "150px",
-              objectFit: "cover",
-              marginTop: 10,
-            }}
-          />
-        )}
-        <h4>Preguntas</h4>
-        {questions.map((q, index) => (
-          <div key={index} style={{ marginBottom: 10 }}>
-            <Input
-              placeholder="Pregunta"
-              value={q.question}
-              onChange={(e) => {
-                const updated = [...questions];
-                updated[index] = {
-                  ...updated[index],
-                  question: e.target.value,
-                };
-                setQuestions(updated);
-              }}
-              style={{ marginBottom: 10 }}
-            />
-            <Input
-              placeholder="Respuesta"
-              value={q.answer}
-              onChange={(e) => {
-                const updated = [...questions];
-                updated[index] = { ...updated[index], answer: e.target.value };
-                setQuestions(updated);
+          <div style={{ position: "relative", marginTop: 10 }}>
+            <img
+              src={background}
+              alt="Fondo"
+              style={{
+                width: "100%",
+                height: "150px",
+                objectFit: "cover",
               }}
             />
+            {gameType === "trivia" && (
+              <Button
+                danger
+                icon={<DeleteOutlined />}
+                style={{
+                  position: "absolute",
+                  top: 5,
+                  right: 5,
+                  background: "rgba(255,255,255,0.7)",
+                }}
+                onClick={() => {
+                  setBackground("");
+                  setBackgroundFile(null);
+                }}
+              >
+                Eliminar imagen
+              </Button>
+            )}
           </div>
-        ))}
-        <Button
-          onClick={() =>
-            setQuestions([...questions, { question: "", answer: "" }])
-          }
-        >
-          + Agregar Pregunta
-        </Button>
+        )}
+
+        {/* Preguntas de juego de mesa */}
+        {gameType === "boardgame" && (
+          <>
+            <h4>Preguntas del Juego de Mesa</h4>
+            {questions.map((q, index) => (
+              <div key={index} style={{ marginBottom: 10 }}>
+                <Input
+                  placeholder="Pregunta"
+                  value={q.question}
+                  onChange={(e) => {
+                    const updated = [...questions];
+                    updated[index] = {
+                      ...updated[index],
+                      question: e.target.value,
+                    };
+                    setQuestions(updated);
+                  }}
+                  style={{ marginBottom: 10 }}
+                />
+                <Input
+                  placeholder="Respuesta"
+                  value={q.answer}
+                  onChange={(e) => {
+                    const updated = [...questions];
+                    updated[index] = {
+                      ...updated[index],
+                      answer: e.target.value,
+                    };
+                    setQuestions(updated);
+                  }}
+                />
+                <Button
+                  danger
+                  type="text"
+                  icon={<DeleteOutlined />}
+                  onClick={() => {
+                    const updated = [...questions];
+                    updated.splice(index, 1);
+                    setQuestions(updated);
+                  }}
+                  style={{ marginLeft: 10 }}
+                />
+              </div>
+            ))}
+            <Button
+              onClick={() =>
+                setQuestions([...questions, { question: "", answer: "" }])
+              }
+            >
+              + Agregar Pregunta
+            </Button>
+          </>
+        )}
+
+        {/* Preguntas de trivia */}
+        {gameType === "trivia" && (
+          <>
+            <h4>Preguntas de la Trivia</h4>
+            {triviaQuestions.map((q, index) => (
+              <div
+                key={index}
+                style={{
+                  marginBottom: 20,
+                  padding: 10,
+                  border: "1px solid #f0f0f0",
+                  borderRadius: 8,
+                }}
+              >
+                <Input
+                  placeholder="Pregunta"
+                  value={q.question}
+                  onChange={(e) => {
+                    const updated = [...triviaQuestions];
+                    updated[index] = {
+                      ...updated[index],
+                      question: e.target.value,
+                    };
+                    setTriviaQuestions(updated);
+                  }}
+                  style={{ marginBottom: 10 }}
+                />
+
+                <div style={{ marginBottom: 5 }}>
+                  <h5>Opciones (selecciona la correcta)</h5>
+                  {q.options.map((option, optIndex) => (
+                    <div
+                      key={optIndex}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: 5,
+                      }}
+                    >
+                      <Radio
+                        checked={q.correctOptionIndex === optIndex}
+                        onChange={() => {
+                          const updated = [...triviaQuestions];
+                          updated[index] = {
+                            ...updated[index],
+                            correctOptionIndex: optIndex,
+                          };
+                          setTriviaQuestions(updated);
+                        }}
+                      />
+                      <Input
+                        placeholder={`Opción ${optIndex + 1}`}
+                        value={option}
+                        onChange={(e) => {
+                          const updated = [...triviaQuestions];
+                          const updatedOptions = [...updated[index].options];
+                          updatedOptions[optIndex] = e.target.value;
+                          updated[index] = {
+                            ...updated[index],
+                            options: updatedOptions,
+                          };
+                          setTriviaQuestions(updated);
+                        }}
+                        style={{ marginLeft: 5, flex: 1 }}
+                      />
+                      <Button
+                        danger
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        onClick={() => {
+                          const updated = [...triviaQuestions];
+                          const updatedOptions = [...updated[index].options];
+                          updatedOptions.splice(optIndex, 1);
+
+                          // Ajustar el índice correcto si se elimina la opción correcta
+                          let correctIndex = updated[index].correctOptionIndex;
+                          if (optIndex === correctIndex) {
+                            correctIndex = 0; // Reset a la primera opción
+                          } else if (optIndex < correctIndex) {
+                            correctIndex--; // Ajustar índice si se elimina una opción anterior
+                          }
+
+                          updated[index] = {
+                            ...updated[index],
+                            options: updatedOptions,
+                            correctOptionIndex: correctIndex,
+                          };
+                          setTriviaQuestions(updated);
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <Space>
+                  <Button
+                    onClick={() => {
+                      const updated = [...triviaQuestions];
+                      const updatedOptions = [...updated[index].options, ""];
+                      updated[index] = {
+                        ...updated[index],
+                        options: updatedOptions,
+                      };
+                      setTriviaQuestions(updated);
+                    }}
+                    size="small"
+                  >
+                    + Agregar Opción
+                  </Button>
+
+                  <Button
+                    danger
+                    size="small"
+                    onClick={() => {
+                      const updated = [...triviaQuestions];
+                      updated.splice(index, 1);
+                      setTriviaQuestions(updated);
+                    }}
+                  >
+                    Eliminar Pregunta
+                  </Button>
+                </Space>
+              </div>
+            ))}
+
+            <Button
+              onClick={() =>
+                setTriviaQuestions([
+                  ...triviaQuestions,
+                  {
+                    question: "",
+                    options: ["", "", ""],
+                    correctOptionIndex: 0,
+                  },
+                ])
+              }
+            >
+              + Agregar Pregunta de Trivia
+            </Button>
+          </>
+        )}
       </Modal>
     </div>
   );

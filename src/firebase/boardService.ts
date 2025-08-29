@@ -24,7 +24,7 @@ export const generateSlug = (title: string): string => {
   //#endregion
 
 //#region Crear Board
-export const createBoard = async (board:Board) => {
+export const createBoard = async (board: Board) => {
     try {
         let slug = generateSlug(board.title);
         let attempt = 0;
@@ -35,14 +35,26 @@ export const createBoard = async (board:Board) => {
         }
     
         const triviaRef = doc(collection(db, `users/${board.userId}/boards`));
-        await setDoc(triviaRef, {
+        
+        // Creamos un objeto base con los campos comunes
+        const boardData: Record<string, any> = {
           slug,
           title: board.title,
           colorPrimary: board.colorPrimary,
           colorSecondary: board.colorSecondary,
-          background: board.background,
-          questions: board.questions,
-        });
+          background: board.background || "", // Aseguramos que nunca sea undefined
+          gameType: board.gameType || "boardgame"
+        };
+        
+        // Añadimos campos específicos según el tipo de juego
+        if (board.gameType === "boardgame") {
+          boardData.questions = board.questions || [];
+          boardData.diceFaces = board.diceFaces || ["1", "2", "3", "4", "Play", "Stop"];
+        } else if (board.gameType === "trivia") {
+          boardData.triviaQuestions = board.triviaQuestions || [];
+        }
+    
+        await setDoc(triviaRef, boardData);
     
         return { id: triviaRef.id, slug };
       } catch (error) {
@@ -87,6 +99,49 @@ export const deleteBoard = async (userId: string, boardID: string) => {
     console.log("Eliminada correctamente");
   } catch (error) {
     console.error("Error eliminando trivia:", error);
+    throw error;
+  }
+};
+//#endregion
+
+//#region Obtener Board por Slug
+export const getBoardBySlug = async (slug: string): Promise<Board | null> => {
+  try {
+    // Primero necesitamos buscar en todas las colecciones de usuarios
+    const usersRef = collection(db, 'users');
+    const usersSnapshot = await getDocs(usersRef);
+    
+    // Para cada usuario, buscar si tiene un juego con el slug proporcionado
+    for (const userDoc of usersSnapshot.docs) {
+      const userId = userDoc.id;
+      const boardsRef = collection(db, `users/${userId}/boards`);
+      const q = query(boardsRef, where("slug", "==", slug));
+      const querySnapshot = await getDocs(q);
+      
+      if (!querySnapshot.empty) {
+        // Si encontramos un juego con ese slug, lo devolvemos
+        const boardDoc = querySnapshot.docs[0];
+        const boardData = boardDoc.data();
+        return { 
+          id: boardDoc.id,
+          userId: userId,
+          title: boardData.title || '',
+          colorPrimary: boardData.colorPrimary || '',
+          colorSecondary: boardData.colorSecondary || '',
+          background: boardData.background || '',
+          gameType: boardData.gameType || 'boardgame',
+          questions: boardData.questions || [],
+          triviaQuestions: boardData.triviaQuestions || [],
+          diceFaces: boardData.diceFaces || [],
+          ...boardData 
+        } as Board;
+      }
+    }
+    
+    // Si no encontramos ningún juego con ese slug
+    return null;
+  } catch (error) {
+    console.error("Error obteniendo juego por slug:", error);
     throw error;
   }
 };
