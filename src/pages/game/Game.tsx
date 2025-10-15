@@ -146,6 +146,8 @@ const Game: React.FC = () => {
     idx: number,
     e: React.TouchEvent<HTMLDivElement>
   ) => {
+    e.preventDefault(); // Prevenir comportamientos por defecto
+    e.stopPropagation(); // Evitar propagación
     const touch = e.touches[0];
     setDraggedToken(idx);
     setDragOffset({
@@ -154,8 +156,11 @@ const Game: React.FC = () => {
     });
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+  // Handler global para touch move cuando se está arrastrando
+  const handleGlobalTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (draggedToken !== null) {
+      e.preventDefault();
+      e.stopPropagation();
       const touch = e.touches[0];
       const newTokens = [...playerTokens];
       newTokens[draggedToken] = {
@@ -166,8 +171,13 @@ const Game: React.FC = () => {
     }
   };
 
-  const handleTouchEnd = () => {
-    setDraggedToken(null);
+  // Handler global para touch end cuando se está arrastrando
+  const handleGlobalTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (draggedToken !== null) {
+      e.preventDefault();
+      e.stopPropagation();
+      setDraggedToken(null);
+    }
   };
 
   return (
@@ -196,12 +206,12 @@ const Game: React.FC = () => {
           backgroundRepeat: "no-repeat",
           position: "relative",
           overflow: "hidden",
-          touchAction: "none", // Para evitar scroll mientras se arrastra
+          touchAction: draggedToken !== null ? "none" : "auto", // Touchaction condicional
         }}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        onTouchMove={handleGlobalTouchMove}
+        onTouchEnd={handleGlobalTouchEnd}
       >
         {/* Modal para elegir cantidad de jugadores */}
         <Modal
@@ -210,6 +220,8 @@ const Game: React.FC = () => {
           footer={null}
           centered
           styles={{ body: { textAlign: "center" } }}
+          style={{ zIndex: 1050 }} // Z-index mayor para estar por encima de las fichas
+          maskStyle={{ zIndex: 1049 }} // Z-index para el fondo del modal
         >
           <h2>Selecciona la cantidad de jugadores</h2>
           <Row gutter={16} justify="center">
@@ -253,15 +265,15 @@ const Game: React.FC = () => {
               border: "3px solid #fff",
               boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
               cursor: "grab",
-              zIndex: 1,
+              zIndex: draggedToken === idx ? 1051 : 1000, // Z-index dinámico más alto cuando se arrastra
               display: selectPlayersVisible ? "none" : "block",
               userSelect: "none",
               touchAction: "none",
+              WebkitUserSelect: "none", // Para Safari
+              WebkitTouchCallout: "none", // Para Safari
             }}
             onMouseDown={(e) => handleMouseDown(idx, e)}
             onTouchStart={(e) => handleTouchStart(idx, e)}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
           >
             <span
               style={{
@@ -295,19 +307,27 @@ const Game: React.FC = () => {
           <Card
             className={`${showCard ? "fade-in" : "fade-out"} cartapregunta`}
             variant="outlined"
-            style={{ textAlign: "center", position: "relative", zIndex: 10 }}
+            style={{ 
+              textAlign: "center", 
+              position: "relative", 
+              zIndex: 500, // Z-index menor que las fichas cuando se arrastran
+              pointerEvents: showCard ? "auto" : "none" // Desactiva eventos cuando no se muestra
+            }}
           >
             {/* Botón X para cerrar la card */}
             <Button
               type="text"
               shape="circle"
               icon={<CloseOutlined />}
-              onClick={() => setShowCard(false)}
+              onClick={() => {
+                setShowCard(false);
+                setRandomQuestion(null); // Limpiar la pregunta al cerrar
+              }}
               style={{
                 position: "absolute",
                 top: 10,
                 right: 10,
-                zIndex: 11,
+                zIndex: 501,
                 color: gameConfig?.colorPrimary || "#333",
                 background: "transparent",
                 border: "none",
