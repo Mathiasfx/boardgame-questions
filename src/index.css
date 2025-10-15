@@ -46,7 +46,7 @@ body {
   background-size: contain; /* Muestra la imagen completa */
   background-position: center center; /* Centra la imagen vertical y horizontalmente */
   background-repeat: no-repeat;
-  background-color: #000; /* Color de fondo para áreas vacías */
+  background-color: #4F9AA9; /* Color de fondo para áreas vacías */
   background-attachment: fixed; /* Evita que la imagen se desplace al hacer scroll */
   min-height: 100vh;
   width: 100vw; /* Aseguramos que el body ocupe todo el ancho */

@@ -1,64 +1,68 @@
 import fs from "fs";
 
-const text = `1 - Cómo se llama el Puente de la Imponente obra víal que une Chaco’i con Asunción?  
-Puente Héroes del Chaco
+const text = `Cómo se llama el evento que promueve la ciencia, la tecnología y la innovación en Ituzaingó?
+Innovatech
 
-2- Quién es el Presidente del Paraguay Electo desde el 2023 al 2028?
-Santiago Peña
+Innovatech es un espacio de encuentro entre empresas, instituciones educativas y gobierno para compartir innovación tecnológica?
 
-3- ¿Qué ríos forman parte de la Hidrovía Paraguay-Paraná?
-Río Paraguay y Río Paraná
+Si 
 
-4- ¿Cuál es la moneda oficial de Paraguay?
-Guaraní (PYG)
+¿Qué tren llega hasta la estación de Ituzaingó?
+Tren Sarmiento 
 
-5- ¿Cuántos habitantes tiene Paraguay aproximadamente en 2024?
-Aproximadamente 7,5 millones
+Ituzaingo tiene 38,51Km2 , cuántos Barrios tiene?
+42 Barrios 
 
-6- ¿Cómo se llama la festividad religiosa más importante de Paraguay?
-Fiesta de la Virgen de Caacupé
+¿Qué autopista pasa por Ituzaingó
+ Acceso Oeste 
 
-7- ¿Qué instrumento musical es símbolo de Paraguay?
-Arpa paraguaya
+¿Qué significa “Ituzaingó”, voz Guaraní?
+“Agua que cae, Catarata 
 
-8- ¿Qué idioma, además del español, es oficial en Paraguay?
-Guaraní
+¿Qué club de fútbol tiene sede en la ciudad?
+ Club Atlético Ituzaingó 
 
-9- ¿Cómo se llama el autor del Multipremiado Libro "Chipas de Raíces Profundas, Páginas con Sabor”
-¨Grillo¨ Benitez
+¿Qué río atraviesa la zona?
+Río Reconquista 
 
-10- ¿Cómo se llama la sopa sólida que se come en Paraguay?
-Sopa paraguaya
+¿Qué día se festeja el aniversario de la ciudad?
+24 de octubre 
 
-11- ¿Cuál es la bebida fría tradicional preparada con yerba mate y agua fría?
-Tereré
+En qué año se presentó el Escudo de Ituzaingó, que representa su  identidad, su espacio y su historia.
+En el año 2014 
 
-12- ¿Cuál es el plato típico hecho con harina de maíz y queso?
-Chipa
 
-13- ¿Qué ciudad paraguaya es conocida como la "Capital del Verano"?
-San Bernardino
+¿Cómo se llama la avenida más comercial?
+Santa Rosa 
 
-14- ¿Cómo se llama la mayor represa hidroeléctrica compartida entre Paraguay y Brasil?
-Itaipú
+A las personas que viven en Ituzaingó cómo se les  llama?
+ituzainguenses
 
-15- ¿Cuál es la capital de Paraguay?
-Asunción
+En 1940 cuál fue una de las primeras Familias en instalarse en Villa Udaondo?
+La Familia Leloir 
 
-16- ¿Qué guerra libró Paraguay contra Bolivia?
-Guerra del Chaco
+¿Qué lugar es ideal para hacer picnic o deportes al aire libre en Ituzaingó?
+ Parque Leloir 
 
-17- ¿En qué año se independizó Paraguay?
-1811
+¿Qué partido limita con Ituzaingó al oeste?
+Merlo 
 
-18- Cuál fue el primer presidente de Paraguay?
-Carlos Antonio López
+¿Qué herramienta utiliza el municipio para acompañar a los emprendedores y pymes locales?
 
-19- Cómo se llama la Principal organización que agrupa a las empresas y entidades dedicadas al desarrollo de software en Paraguay?
-CISOFT - Cámara Paraguaya de la Industria del Software
+Las Rondas de Negocios y el Programa de Desarrollo Productivo.
 
-20- Cómo se llama la Empresa Paraguaya que Desarrolla y Comercializa Soluciones Tecno Educativas?
-La Clase Digital`;
+¿Qué famoso escritor o artista argentino vivió en Parque Leloir?
+ Luis Alberto Spinetta 
+
+¿Qué tipo de árboles abundan en las calles de Ituzaingó?
+ Tipas y jacarandás 
+
+¿Qué evento cultural suele realizarse en la plaza San Martín?
+Feria del libro y emprendedores 
+
+¿Cómo se llama el evento que promueve la ciencia, la tecnología y la innovación en Ituzaingó?
+Innovatech 
+`;
 
 const formattedData = text
   .split(/\n?\d+[-–.] /)
