@@ -50,10 +50,10 @@ const App: React.FC = () => {
 
   // Define las variables como un objeto 4bacd6
   const customIndicator = (
-    <LoadingOutlined spin style={{ fontSize: "48px", color: "#1F9C96" }} />
+    <LoadingOutlined spin style={{ fontSize: "48px", color: "#f5f5f5" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#1F9C96",
+    "--button-bg-color": "#CF1C26",
     "--button-color": "white",
     "--button-border-color": "#f5f5f5",
     "--button-border": "4px solid #f5f5f5",
