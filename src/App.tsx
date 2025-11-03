@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [diceFaces] = useState(["1", "2", "3", "4", "Hable", "Alto"]);
 
   // Colores para las fichas de los jugadores
-  const PLAYER_COLORS = ["#e74c3c", "#3498db", "#f1c40f", "#27ae60"];
+  const PLAYER_COLORS = ["#e74c3c", "#ff6ec7", "#f1c40f", "#27ae60"];
 
   interface Player {
     id: number;
@@ -53,7 +53,7 @@ const App: React.FC = () => {
     <LoadingOutlined spin style={{ fontSize: "48px", color: "#f5f5f5" }} />
   );
   const buttonStyles = {
-    "--button-bg-color": "#CF1C26",
+    "--button-bg-color": "#0066d5",
     "--button-color": "white",
     "--button-border-color": "#f5f5f5",
     "--button-border": "4px solid #f5f5f5",
