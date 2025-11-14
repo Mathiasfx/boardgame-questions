@@ -455,7 +455,7 @@ const App: React.FC = () => {
               <p
                 style={{
                   marginTop: "10px",
-                  color: "#1F9C96",
+                  color: "#1b3c94",
                   fontSize: "1.6rem",
                   fontWeight: "semibold",
                 }}
