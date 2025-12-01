@@ -52,13 +52,6 @@ const App: React.FC = () => {
   const customIndicator = (
     <LoadingOutlined spin style={{ fontSize: "48px", color: "#f5f5f5" }} />
   );
-  const buttonStyles = {
-    "--button-bg-color": "#ff6ec7",
-    "--button-color": "white",
-    "--button-border-color": "#f5f5f5",
-    "--button-border": "4px solid #f5f5f5",
-    "--button-box-shadow": "0px 4px 10px rgba(0, 0, 0, 0.2)",
-  };
 
   const [players, setPlayers] = useState<Player[]>([]);
   const [draggedPlayerId, setDraggedPlayerId] = useState<number | null>(null);
@@ -471,7 +464,7 @@ const App: React.FC = () => {
         type="default"
         className="custom-button"
         onClick={getRandomQuestion}
-        style={{ minHeight: "50px", ...buttonStyles }}
+        style={{ minHeight: "50px" }}
       >
         Obtener Pregunta
       </Button>{" "}
@@ -491,7 +484,6 @@ const App: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          ...buttonStyles,
         }}
         title={showDice ? "Cerrar dado" : "Activar dado"}
       >
@@ -711,7 +703,6 @@ const App: React.FC = () => {
               zIndex: 210,
               fontSize: 18,
               pointerEvents: "auto",
-              ...buttonStyles,
             }}
           >
             ✕ Cerrar

@@ -1,0 +1,39 @@
+:root {
+  /* Colores principales */
+  --bg-color: #c0ac98;
+  --text-color: rgba(255, 255, 255, 0.87);
+  
+  /* Colores de botones */
+  --button-bg-color: #c50707;
+  --button-border-color: #c50707;
+  --primary-button-bg: #4a6fa5;
+  --primary-button-hover: #3a5a8c;
+  --primary-button-text: #ffffff;
+  
+  --secondary-button-bg: #6c757d;
+  --secondary-button-hover: #5a6268;
+  --secondary-button-text: #ffffff;
+  
+  /* Colores de estado */
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --info-color: #17a2b8;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Bordes */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+  
+  /* Espaciado */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+}
